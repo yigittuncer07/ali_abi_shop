@@ -83,9 +83,8 @@ CREATE TABLE Product (
 GO
 
 CREATE TABLE PrintOrder (
-	PrintOrderId  INT,
-	DocumentId INT,
-	PRIMARY KEY (PrintOrderId, DocumentId),
+	PrintOrderId  INT PRIMARY KEY,
+	DocumentId INT
 
 );
 GO
@@ -165,11 +164,9 @@ GO
 ALTER TABLE PrintOrder
 ADD FOREIGN KEY (DocumentId) REFERENCES Document(DocumentId);
 
+GO
 
-------------
---GO
-
---ALTER TABLE OrderList
---ADD FOREIGN KEY (ItemId) REFERENCES PrintOrder(PrintOrderId);
+ALTER TABLE OrderList
+ADD FOREIGN KEY (ItemId) REFERENCES PrintOrder(PrintOrderId);
 
 
