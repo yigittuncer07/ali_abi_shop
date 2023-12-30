@@ -129,7 +129,7 @@ GO
 
 
 ALTER TABLE Receipt
-ADD FOREIGN KEY (CustomerId) REFERENCES Employee(EmployeeId);
+ADD FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId);
 
 GO
 
