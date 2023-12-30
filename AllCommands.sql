@@ -100,8 +100,8 @@ CREATE TABLE Document (
 	DocumentId  INT PRIMARY KEY,
 	FileContent VARCHAR(50)
 	
-
 );
+
 GO
 
 ALTER TABLE Employee
@@ -157,14 +157,19 @@ GO
 
 ALTER TABLE Category
 ADD FOREIGN KEY (ProductId) REFERENCES Product(ProductId);
-------------
+
 GO
-
-ALTER TABLE OrderList
-ADD FOREIGN KEY (ItemId) REFERENCES PrintOrder(PrintOrderId);
-
 
 GO 
 
 ALTER TABLE PrintOrder
 ADD FOREIGN KEY (DocumentId) REFERENCES Document(DocumentId);
+
+
+------------
+--GO
+
+--ALTER TABLE OrderList
+--ADD FOREIGN KEY (ItemId) REFERENCES PrintOrder(PrintOrderId);
+
+
