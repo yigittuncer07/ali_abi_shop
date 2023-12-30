@@ -98,7 +98,7 @@ CREATE TABLE Category (
 GO
 CREATE TABLE Document (
 	DocumentId  INT PRIMARY KEY,
-	Content VARCHAR(250)
+	FileContent VARCHAR(50)
 	
 
 );
@@ -157,15 +157,14 @@ GO
 
 ALTER TABLE Category
 ADD FOREIGN KEY (ProductId) REFERENCES Product(ProductId);
+------------
+GO
 
---GO
-
---ALTER TABLE OrderList
---ADD FOREIGN KEY (ItemId) REFERENCES PrintOrder(PrintOrderId);
-
-
---GO 
+ALTER TABLE OrderList
+ADD FOREIGN KEY (ItemId) REFERENCES PrintOrder(PrintOrderId);
 
 
---ALTER TABLE PrintOrder
---ADD FOREIGN KEY (DocumentId) REFERENCES Document(DocumentId);
+GO 
+
+ALTER TABLE PrintOrder
+ADD FOREIGN KEY (DocumentId) REFERENCES Document(DocumentId);
