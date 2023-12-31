@@ -3,12 +3,13 @@ CREATE TABLE Employee (
     Name VARCHAR(50),
     Surname VARCHAR(50),
     Password VARCHAR(50),
-    Email VARCHAR(50),
+    Email VARCHAR(50) UNIQUE,
     Salary INT,
     WorkEntranceDate DATE,
     BirthDate DATE,
-    PhoneNumber VARCHAR(15),
+    PhoneNumber VARCHAR(15) UNIQUE,
     ManagerId INT,
+    Age AS (DATEDIFF(YEAR, BirthDate, GETDATE())) PERSISTED,
     FOREIGN KEY (ManagerId) REFERENCES Employee(EmployeeId)
 );
 
@@ -30,7 +31,7 @@ CREATE TABLE Customer (
     CustomerId INT PRIMARY KEY,
     Name VARCHAR(50),
     Surname VARCHAR(50),
-    PhoneNumber VARCHAR(15)
+    PhoneNumber VARCHAR(15) CHECK (phoneNumber LIKE '+90%')
 );
 
 -- Adress tablosu
@@ -102,7 +103,7 @@ CREATE TABLE Category (
 
 -- PrintOrder tablosu
 CREATE TABLE PrintOrder (
-    PrintOrderId  INT PRIMARY KEY,
+    PrintOrderId  INT  IDENTITY(1,1) PRIMARY KEY,
     ReceiptId INT,
     FOREIGN KEY (ReceiptId) REFERENCES Receipt(ReceiptId)
 );
@@ -111,9 +112,9 @@ CREATE TABLE PrintOrder (
 
 -- Document tablosu
 CREATE TABLE Document (
-    DocumentId  INT PRIMARY KEY,
+    DocumentId  INT  IDENTITY(1,1) PRIMARY KEY,
     FileContent VARCHAR(250),
-    Quantity INT,
+    Quantity INT DEFAULT 1,
     PrintOrderId INT,
     FOREIGN KEY (PrintOrderId) REFERENCES PrintOrder(PrintOrderId)
 );
