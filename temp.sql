@@ -9,7 +9,6 @@ CREATE TABLE Employee (
     BirthDate DATE,
     PhoneNumber VARCHAR(15) UNIQUE,
     ManagerId INT,
-    Age AS (DATEDIFF(YEAR, BirthDate, GETDATE())) PERSISTED,
     FOREIGN KEY (ManagerId) REFERENCES Employee(EmployeeId)
 );
 
@@ -64,7 +63,7 @@ CREATE TABLE Receipt (
     CustomerId INT,
     EmployeeId INT,
     Date DATE,
-    FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId)
+    FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
     FOREIGN KEY (EmployeeId) REFERENCES Employee(EmployeeId)
 
 );
@@ -103,7 +102,7 @@ CREATE TABLE Category (
 
 -- PrintOrder tablosu
 CREATE TABLE PrintOrder (
-    PrintOrderId  INT  IDENTITY(1,1) PRIMARY KEY,
+    PrintOrderId  INT PRIMARY KEY,
     ReceiptId INT,
     FOREIGN KEY (ReceiptId) REFERENCES Receipt(ReceiptId)
 );

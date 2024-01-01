@@ -1,3 +1,6 @@
+ALTER TABLE Employee
+ADD Age AS (DATEDIFF(YEAR, BirthDate, GETDATE()));
+
 CREATE INDEX ReceiptEmployeeId
 ON Receipt(EmployeeId);
 
