@@ -13,7 +13,6 @@ CREATE TABLE Employee (
 );
 
 
--- Education tablosu
 CREATE TABLE Education(
     EmployeeId INT,
     Major VARCHAR(50),
@@ -33,7 +32,6 @@ CREATE TABLE Customer (
     PhoneNumber VARCHAR(15) CHECK (phoneNumber LIKE '+90%')
 );
 
--- Adress tablosu
 CREATE TABLE EmployeeAdress(
     EmployeeId INT,
     Country VARCHAR(50),
@@ -45,7 +43,6 @@ CREATE TABLE EmployeeAdress(
     FOREIGN KEY (EmployeeId) REFERENCES Employee(EmployeeId)
 );
 
--- Adress tablosu
 CREATE TABLE CustomerAdress(
     CustomerId INT,
     Country VARCHAR(50),
@@ -57,7 +54,6 @@ CREATE TABLE CustomerAdress(
     FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId)
 );
 
--- Receipt tablosu
 CREATE TABLE Receipt (
     ReceiptId  INT PRIMARY KEY,
     CustomerId INT,
@@ -69,7 +65,6 @@ CREATE TABLE Receipt (
 );
 
 
--- Product tablosu
 CREATE TABLE Product (
     ProductId  INT PRIMARY KEY ,
     Name VARCHAR(50),
@@ -77,7 +72,6 @@ CREATE TABLE Product (
     Price INT,
 );
 
--- Item tablosu
 CREATE TABLE Item (
     ItemId  INT PRIMARY KEY ,
     ProductId INT,
@@ -92,7 +86,6 @@ CREATE TABLE Item (
 
 );
 
--- Category tablosu
 CREATE TABLE Category (
     ProductId  INT,
     Category VARCHAR(50),
@@ -100,7 +93,6 @@ CREATE TABLE Category (
     FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
 );
 
--- PrintOrder tablosu
 CREATE TABLE PrintOrder (
     PrintOrderId  INT PRIMARY KEY,
     ReceiptId INT,
@@ -109,7 +101,6 @@ CREATE TABLE PrintOrder (
 
 
 
--- Document tablosu
 CREATE TABLE Document (
     DocumentId  INT  IDENTITY(1,1) PRIMARY KEY,
     FileContent VARCHAR(250),

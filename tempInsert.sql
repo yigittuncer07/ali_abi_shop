@@ -1,4 +1,3 @@
--- Güncellenmiş 25 çalışanı ekle
 INSERT INTO Employee (EmployeeId, Name, Surname, Password, Email, Salary, WorkEntranceDate, BirthDate, PhoneNumber, ManagerId)
 VALUES
   (1, 'Ahmet', 'Yılmaz', 'ahmet123', 'ahmet@gmail.com', 60000, '2017-01-15', '1990-05-20', '+90555-1355567', NULL),
@@ -164,7 +163,6 @@ VALUES
   (8, 'Türkiye', 'Kırıkkale', 'Fatih Bulvarı', '29', '71100'),
   (7, 'Türkiye', 'Aksaray', 'Cumhuriyet Caddesi', '30', '68100');
 
--- Receipt tablosunu doldur
 INSERT INTO Receipt (ReceiptId, CustomerId, EmployeeId, Date)
 VALUES
   (1, 13, 8, '2023-01-15'),
@@ -198,7 +196,6 @@ VALUES
   (29, 14, 25, '2022-05-20'),
   (30, 6, 8, '2022-06-25');
 
--- Kırtasiyede satılabilecek gerçekçi ürünler
 INSERT INTO Product (ProductId, Name, Definition, Price)
 VALUES
   (1, 'Spiralli Defter - A4', '80 yaprak, çizgili spiralli defter', 15),
@@ -280,7 +277,6 @@ VALUES
   (42, 16, NULL, '2026-07-30', NULL, NULL, 12, 0);
 
 
--- Category tablosuna kayıtları eklemek için INSERT sorguları
 INSERT INTO Category (ProductId, Category)
 VALUES
   (1, 'Defter'),

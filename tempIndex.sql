@@ -1,15 +1,15 @@
 ALTER TABLE Employee
 ADD Age AS (DATEDIFF(YEAR, BirthDate, GETDATE()));
-
+GO
 CREATE INDEX ReceiptEmployeeId
 ON Receipt(EmployeeId);
-
+GO
 CREATE INDEX ReceiptCustomerId
 ON Receipt(CustomerId);
-
+GO
 CREATE INDEX ItemReceiptId
 ON Item(ReceiptId);
-
+GO
 
 
 CREATE VIEW StockDetails AS
@@ -20,7 +20,7 @@ INNER JOIN Product p ON i.ProductId = p.ProductId
 INNER JOIN Category c ON p.ProductId = c.ProductId
 
 WHERE i.IsSold = 0;
-
+GO
 
 CREATE VIEW PerformanceDetails AS
 SELECT
@@ -40,7 +40,7 @@ FULL JOIN
 GROUP BY
     e.EmployeeId, e.Name, e.Surname, e.Salary, e.Age;
 
-
+GO
 
 CREATE VIEW SoldDetails AS
 SELECT i.ItemId, p.Name, r.CustomerId, r.EmployeeId ,c.Category, (i.SellingPrice-i.ArrivalPrice) as Income
@@ -52,7 +52,7 @@ INNER JOIN Category c ON p.ProductId = c.ProductId
 
 WHERE i.IsSold = 1;
 
-
+GO
 
 CREATE VIEW CategoryDetails AS
 SELECT
@@ -65,7 +65,7 @@ LEFT JOIN
 GROUP BY
     c.Category;
 
-
+GO
 CREATE TRIGGER trg_UpdateItemDateBought
 ON Item
 AFTER INSERT AS
@@ -75,7 +75,7 @@ BEGIN
     FROM Item i
     INNER JOIN INSERTED ins ON i.ItemId = ins.ItemId;
 END;
-
+GO
 --1
 CREATE PROCEDURE GetEmployeeInfo
     @EmployeeId INT
@@ -83,7 +83,7 @@ AS
 BEGIN
     SELECT * FROM Employee WHERE EmployeeId = @EmployeeId;
 END;
-
+GO
 --2
 CREATE PROCEDURE SearchProductsByPriceRange
     @MinPrice INT,
@@ -92,7 +92,7 @@ AS
 BEGIN
     SELECT * FROM Product WHERE Price BETWEEN @MinPrice AND @MaxPrice;
 END;
-
+GO
 --3
 CREATE PROCEDURE GetCustomerReceipts
     @CustomerId INT
@@ -100,7 +100,7 @@ AS
 BEGIN
     SELECT * FROM Receipt WHERE CustomerId = @CustomerId;
 END;
-
+GO
 --4
 CREATE PROCEDURE GetItemsByPurchaseDate
     @PurchaseDate DATE
@@ -108,7 +108,7 @@ AS
 BEGIN
     SELECT * FROM Item WHERE DateBought = @PurchaseDate;
 END;
-
+GO
 
 --5
 CREATE PROCEDURE SellItem
@@ -119,7 +119,7 @@ AS
 BEGIN
     UPDATE Item SET IsSold = 1, DateSold = GETDATE(), SellingPrice = @SellingPrice, ReceiptId = @ReceiptId WHERE ItemId = @ItemId;
 END;
-
+GO
 --6
 CREATE PROCEDURE AddProduct
     @ProductId INT,
@@ -130,7 +130,7 @@ AS
 BEGIN
     INSERT INTO Product (ProductId, Name, Definition, Price) VALUES (@ProductId, @Name, @Definition, @Price);
 END;
-
+GO
 --7
 CREATE PROCEDURE AddEmployee
     @EmployeeId INT,
@@ -148,7 +148,7 @@ BEGIN
     INSERT INTO Employee (EmployeeId , Name, Surname, Password, Email, Salary, WorkEntranceDate, BirthDate, PhoneNumber, ManagerId)
     VALUES (@EmployeeId, @Name, @Surname, @Password, @Email, @Salary, @WorkEntranceDate, @BirthDate, @PhoneNumber, @ManagerId);
 END;
-
+GO
 --8
 CREATE PROCEDURE AddCustomer
     @CustomerId INT,
@@ -161,7 +161,7 @@ BEGIN
     VALUES (@CustomerId, @Name, @Surname, @PhoneNumber);
 END;
 
-
+GO
 --9
 CREATE PROCEDURE AddDocument
     @PrintOrderId INT,
@@ -172,7 +172,7 @@ BEGIN
     INSERT INTO Document (FileContent, Quantity, PrintOrderId)
     VALUES(@FileContent, @Quantity, @PrintOrderId);
 END;
-
+GO
 
 --10
 CREATE PROCEDURE AddReceipt
