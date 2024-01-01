@@ -266,18 +266,18 @@ VALUES
   (28, 17, 7, '2022-04-20', '2022-05-05', 35, 32, 1),
   (29, 7, 11, '2022-05-25', '2022-06-10', 25, 22, 1),
   (30, 17, 10, '2022-06-30', '2022-07-15', 20, 18, 1),
-  (31, 1, NULL, '2022-07-05', NULL, NULL, NULL, 0),
-  (32, 16, NULL, '2022-08-10', NULL, NULL, NULL, 0),
-  (33, 17, NULL, '2022-09-15', NULL, NULL, NULL, 0),
-  (34, 4, NULL, '2022-10-20', NULL, NULL, NULL, 0),
-  (35, 5, NULL, '2022-11-25', NULL, NULL, NULL, 0),
-  (36, 6, NULL, '2026-01-01', NULL, NULL, NULL, 0),
-  (37, 17, NULL, '2026-02-05', NULL, NULL, NULL, 0),
-  (38, 8, NULL, '2026-03-10', NULL, NULL, NULL, 0),
-  (39, 9, NULL, '2026-04-15', NULL, NULL, NULL, 0),
-  (40, 17, NULL, '2026-05-20', NULL, NULL, NULL, 0),
-  (41, 11, NULL, '2026-06-25', NULL, NULL, NULL, 0),
-  (42, 16, NULL, '2026-07-30', NULL, NULL, NULL, 0);
+  (31, 1, NULL, '2022-07-05', NULL, NULL, 18, 0),
+  (32, 16, NULL, '2022-08-10', NULL, NULL, 22, 0),
+  (33, 17, NULL, '2022-09-15', NULL, NULL, 12, 0),
+  (34, 4, NULL, '2022-10-20', NULL, NULL, 12, 0),
+  (35, 5, NULL, '2022-11-25', NULL, NULL, 18, 0),
+  (36, 6, NULL, '2026-01-01', NULL, NULL, 32, 0),
+  (37, 17, NULL, '2026-02-05', NULL, NULL, 17, 0),
+  (38, 8, NULL, '2026-03-10', NULL, NULL, 4, 0),
+  (39, 9, NULL, '2026-04-15', NULL, NULL, 32, 0),
+  (40, 17, NULL, '2026-05-20', NULL, NULL, 9, 0),
+  (41, 11, NULL, '2026-06-25', NULL, NULL, 17, 0),
+  (42, 16, NULL, '2026-07-30', NULL, NULL, 12, 0);
 
 
 -- Category tablosuna kayıtları eklemek için INSERT sorguları
