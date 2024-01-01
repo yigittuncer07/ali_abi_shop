@@ -111,13 +111,13 @@ END;
 
 
 --5
-CREATE PROCEDURE SellProduct
+CREATE PROCEDURE SellItem
     @ItemId INT,
     @ReceiptId INT,
     @SellingPrice INT
 AS
 BEGIN
-    UPDATE Item SET IsSold = 1, DateSold = GETDATE(), SellingPrice = @SellingPrice WHERE ItemId = @ItemId AND ReceiptId = @ReceiptId;
+    UPDATE Item SET IsSold = 1, DateSold = GETDATE(), SellingPrice = @SellingPrice, ReceiptId = @ReceiptId WHERE ItemId = @ItemId;
 END;
 
 --6
@@ -175,15 +175,13 @@ END;
 
 
 --10
-CREATE PROCEDURE AddEmployeeAdress
+CREATE PROCEDURE AddReceipt
+    @ReceiptId INT,
     @EmployeeId INT,
-    @Country VARCHAR(50),
-    @City VARCHAR(50),
-    @Street VARCHAR(250),
-    @HouseNumber VARCHAR(50),
-    @ZipCode VARCHAR(50)
+    @CustomerId INT,
+    @Date DATE
 AS
 BEGIN
-    INSERT INTO EmployeeAdress (EmployeeId, Country, City, Street, HouseNumber, ZipCode)
-    VALUES (@EmployeeId, @Country, @City, @Street, @HouseNumber, @ZipCode);
+    INSERT INTO Receipt (ReceiptId, CustomerId, EmployeeId, Date)
+    VALUES (@ReceiptId, @CustomerId, @EmployeeId, @Date);
 END;
