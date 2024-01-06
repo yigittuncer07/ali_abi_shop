@@ -17,7 +17,7 @@
         #tagline {
             color: #555;
             font-size: 1.2em;
-            animation: fadeIn 1s ease-in-out, pulsate 2s infinite;
+            animation: fadeIn 1s ease-in-out, pulsate 3s infinite;
         }
 
         /* Optional: Add some animation */
@@ -33,11 +33,12 @@
         }
 
         @keyframes colorChange {
-            0% { color: #3498db; }
-            25% { color: #e74c3c; }
-            50% { color: #2ecc71; }
-            75% { color: #f39c12; }
-            100% { color: #3498db; }
+            0% { color: rgb(52, 152, 219);  }
+            20% { color: rgb(231, 76, 60);  }
+            40% { color: rgb(46, 204, 113); }
+            60% { color: rgb(241, 196, 15); }
+            80% { color: rgb(155, 89, 182); }
+            100% { color: rgb(52, 152, 219); }
         }
     </style>
 </head>
@@ -49,7 +50,7 @@
 
     <form action="{{ url_for('search_employee') }}" method="post">
         <label for="search_id">EmployeeId ile Ara:</label>
-        <input type="text" id="search_id" name="search_id" required>
+        <input type="number" id="search_id" name="search_id" required>
         <input type="submit" value="Ara">
     </form>
 
@@ -74,10 +75,10 @@
 
     <br>
     
-    <h2>Yeni Veri Ekle</h2>
+    <h2>Yeni Veri Ekle & Güncelle</h2>
     <form action="{{ url_for('add_employee') }}" method="post">
         <label for="id">EmployeeId:</label>
-        <input type="text" id="id" name="id" required><br>
+        <input type="number" id="id" name="id" required><br>
 
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
@@ -106,11 +107,22 @@
         <label for="managerId">Manager Id:</label>
         <input type="number" id="managerId" name="managerId"><br>
 
-        <input type="submit" value="Ekle">
+        <input type="submit" value="Ekle&Güncelle">
     </form>
     
     <br>
-    <h2>Veritabanı Verileri</h2>
+
+
+    <h2>Employee Sil</h2>
+    <form action="{{ url_for('delete_employee') }}" method="post">
+        <label for="deleteId">EmployeeId:</label>
+        <input type="number" id="deleteId" name="deleteId" required><br>
+
+        <input type="submit" value="Sil">
+    </form>
+    
+
+    <h2>Güncel Veritabanı Verileri</h2>
 
 
     

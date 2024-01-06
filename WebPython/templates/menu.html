@@ -46,17 +46,11 @@
 
     <h1 id="cool-title">Ali Abi Shop</h1>
 
-    <h2>Giriş Yapın:</h2>
-
-    <form action="{{ url_for('login_system') }}" method="post">
-        <label for="loginEmail">Email:</label>
-        <input type="text" id="loginEmail" name="loginEmail" required><br>
-
-        <label for="loginPassword">Password:</label>
-        <input type="text" id="loginPassword" name="loginPassword" required><br>
-
-        <input type="submit" value="Giriş">
-    </form>
+    <div>
+        <p>Employee işlemleri için tıklayınız: </p>
+        <button><a style="text-decoration: none; color: black;" href="{{ url_for('employee') }}">Employee</a></button>
+    </div>
+    
 
 </body>
 </html>
