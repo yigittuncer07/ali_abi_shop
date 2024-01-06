@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime  # Ekledik
+from datetime import datetime  
+from sqlalchemy import text
 
 
 app = Flask(__name__)
@@ -35,7 +36,10 @@ def index():
 
 @app.route('/employee')
 def employee():
-    all_data = ExampleModel.query.all()
+
+    sql_query = "SELECT * FROM Employee"
+      
+    all_data = db.session.execute(text(sql_query))
 
     return render_template('employee.html', all_data = all_data)
 
