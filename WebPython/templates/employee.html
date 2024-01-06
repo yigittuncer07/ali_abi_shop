@@ -54,7 +54,7 @@
     </form>
 
 
-    <h1>Search Result</h1>
+    <h2>Search Result:</h2>
 
     {% if result %}
         <strong style="color: red;">EmployeeId:</strong> {{ result.EmployeeId }} - 
@@ -71,7 +71,7 @@
         <p>Belirtilen EmployeeId ile eşleşen veri bulunamadı.</p>
     {% endif %}
 
-
+    <br>
     
     <h2>Yeni Veri Ekle</h2>
     <form action="{{ url_for('add_employee') }}" method="post">
@@ -108,6 +108,7 @@
         <input type="submit" value="Ekle">
     </form>
     
+    <br>
     <h2>Veritabanı Verileri</h2>
 
 

@@ -12,7 +12,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Veritabanında kullanılacak model sınıfı örneği
 class ExampleModel(db.Model):
     __tablename__ = 'Employee'
     EmployeeId = db.Column(db.Integer, primary_key=True, autoincrement=False)
@@ -79,7 +78,6 @@ def add_employee():
 def search_employee():
     search_id = request.form.get('search_id')
 
-    # EmployeeId'ye göre veri arama işlemi
     result = ExampleModel.query.filter_by(EmployeeId=search_id).first()
 
     all_data = ExampleModel.query.all()
