@@ -1,0 +1,61 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AliAbiShop</title>
+    <style>
+    
+    #cool-title {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: colorChange 2s infinite; /* Change color every 5 seconds */
+        }
+
+        #tagline {
+            color: #555;
+            font-size: 1.2em;
+            animation: fadeIn 1s ease-in-out, pulsate 2s infinite;
+        }
+
+        /* Optional: Add some animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes colorChange {
+            0% { color: #3498db; }
+            25% { color: #e74c3c; }
+            50% { color: #2ecc71; }
+            75% { color: #f39c12; }
+            100% { color: #3498db; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="cool-title">Ali Abi Shop</h1>
+
+    <div>
+        <p>Employee işlemleri için tıklayınız: </p>
+        <button><a style="text-decoration: none; color: black;" href="{{ url_for('employee') }}">Employee</a></button>
+    </div>
+    
+
+
+
+
+
+</body>
+</html>
+
+

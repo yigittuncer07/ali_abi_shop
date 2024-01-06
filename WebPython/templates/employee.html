@@ -1,0 +1,137 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AliAbiShop</title>
+    <style>
+    
+    #cool-title {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: colorChange 2s infinite; /* Change color every 5 seconds */
+        }
+
+        #tagline {
+            color: #555;
+            font-size: 1.2em;
+            animation: fadeIn 1s ease-in-out, pulsate 2s infinite;
+        }
+
+        /* Optional: Add some animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes colorChange {
+            0% { color: #3498db; }
+            25% { color: #e74c3c; }
+            50% { color: #2ecc71; }
+            75% { color: #f39c12; }
+            100% { color: #3498db; }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <h1 id="cool-title">Ali Abi Shop</h1>
+
+    <form action="{{ url_for('search_employee') }}" method="post">
+        <label for="search_id">EmployeeId ile Ara:</label>
+        <input type="text" id="search_id" name="search_id" required>
+        <input type="submit" value="Ara">
+    </form>
+
+
+    <h1>Search Result</h1>
+
+    {% if result %}
+        <strong style="color: red;">EmployeeId:</strong> {{ result.EmployeeId }} - 
+        <strong style="color: red;">Name:</strong> {{ result.Name }} - 
+        <strong style="color: red;">Surname:</strong> {{ result.Surname }} - 
+        <strong style="color: red;">Password:</strong> {{ result.Password }} - 
+        <strong style="color: red;">Email:</strong> {{ result.Email }} - 
+        <strong style="color: red;">Salary:</strong> {{ result.Salary }} - 
+        <strong style="color: red;">WorkEntranceDate:</strong> {{ result.WorkEntranceDate }} - 
+        <strong style="color: red;">BirthDate:</strong> {{ result.BirthDate }} - 
+        <strong style="color: red;">PhoneNumber:</strong> {{ result.PhoneNumber }} - 
+        <strong style="color: red;">ManagerId:</strong> {{ result.ManagerId }} 
+    {% else %}
+        <p>Belirtilen EmployeeId ile eşleşen veri bulunamadı.</p>
+    {% endif %}
+
+
+    
+    <h2>Yeni Veri Ekle</h2>
+    <form action="{{ url_for('add_employee') }}" method="post">
+        <label for="id">EmployeeId:</label>
+        <input type="text" id="id" name="id" required><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required><br>
+
+        <label for="password">Password:</label>
+        <input type="text" id="password" name="password" required><br>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required><br>
+
+        <label for="salary">Salary:</label>
+        <input type="number" id="salary" name="salary" required><br>
+
+        <label for="workEntranceDate">Work Entrance Date:</label>
+        <input type="date" id="workEntranceDate" name="workEntranceDate" required><br>
+
+        <label for="birthDate">Birth Date:</label>
+        <input type="date" id="birthDate" name="birthDate" required><br>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required><br>
+
+        <label for="managerId">Manager Id:</label>
+        <input type="number" id="managerId" name="managerId"><br>
+
+        <input type="submit" value="Ekle">
+    </form>
+    
+    <h2>Veritabanı Verileri</h2>
+
+
+    
+    <ul>
+        {% for employee in all_data %}
+            <li>
+                <strong style="color: red;">EmployeeId:</strong> {{ employee.EmployeeId }} - 
+                <strong style="color: red;">Name:</strong> {{ employee.Name }} - 
+                <strong style="color: red;">Surname:</strong> {{ employee.Surname }} - 
+                <strong style="color: red;">Password:</strong> {{ employee.Password }} - 
+                <strong style="color: red;">Email:</strong> {{ employee.Email }} - 
+                <strong style="color: red;">Salary:</strong> {{ employee.Salary }} - 
+                <strong style="color: red;">WorkEntranceDate:</strong> {{ employee.WorkEntranceDate }} - 
+                <strong style="color: red;">BirthDate:</strong> {{ employee.BirthDate }} - 
+                <strong style="color: red;">PhoneNumber:</strong> {{ employee.PhoneNumber }} - 
+                <strong style="color: red;">ManagerId:</strong> {{ employee.ManagerId }} <br> <br><br>
+ 
+            </li>
+        {% endfor %}
+    </ul>
+
+
+
+
+</body>
+</html>
