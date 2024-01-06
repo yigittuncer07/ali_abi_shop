@@ -82,9 +82,26 @@ def add_employee():
 def search_employee():
     search_id = request.form.get('search_id')
 
-    result = ExampleModel.query.filter_by(EmployeeId=search_id).first()
+    search_sql = f"""SELECT TOP (1000) [EmployeeId]
+      ,[Name]
+      ,[Surname]
+      ,[Password]
+      ,[Email]
+      ,[Salary]
+      ,[WorkEntranceDate]
+      ,[BirthDate]
+      ,[PhoneNumber]
+      ,[ManagerId]
+      ,[Age]
+      FROM [AliAbiShop].[dbo].[Employee] WHERE EmployeeId = {search_id}"""
 
-    all_data = ExampleModel.query.all()
+    result = db.session.execute(text(search_sql)).first()
+
+
+    sql_query_all_data = "SELECT * FROM Employee"
+      
+    all_data = db.session.execute(text(sql_query_all_data))
+    
 
     return render_template('employee.html', all_data = all_data, result=result)
 

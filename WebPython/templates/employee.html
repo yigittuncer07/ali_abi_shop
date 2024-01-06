@@ -66,6 +66,7 @@
         <strong style="color: red;">WorkEntranceDate:</strong> {{ result.WorkEntranceDate }} - 
         <strong style="color: red;">BirthDate:</strong> {{ result.BirthDate }} - 
         <strong style="color: red;">PhoneNumber:</strong> {{ result.PhoneNumber }} - 
+        <strong style="color: red;">Age:</strong> {{ result.Age }} - 
         <strong style="color: red;">ManagerId:</strong> {{ result.ManagerId }} 
     {% else %}
         <p>Belirtilen EmployeeId ile eşleşen veri bulunamadı.</p>
@@ -125,7 +126,8 @@
                 <strong style="color: red;">WorkEntranceDate:</strong> {{ employee.WorkEntranceDate }} - 
                 <strong style="color: red;">BirthDate:</strong> {{ employee.BirthDate }} - 
                 <strong style="color: red;">PhoneNumber:</strong> {{ employee.PhoneNumber }} - 
-                <strong style="color: red;">ManagerId:</strong> {{ employee.ManagerId }} <br> <br><br>
+                <strong style="color: red;">ManagerId:</strong> {{ employee.ManagerId }} -
+                <strong style="color: red;">Age:</strong> {{ employee.Age }} <br> <br><br>
  
             </li>
         {% endfor %}
