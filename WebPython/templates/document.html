@@ -1,0 +1,71 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>AliAbiShop</title>
+    <link rel="stylesheet" href="static/style.css">
+
+</head>
+<body>
+
+    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
+        <h1 id="cool-title">Ali Abi Shop</h1>
+    </a>
+
+    <form action="{{ url_for('search_document') }}" method="post">
+        <label for="search_id">DocumentId ile Ara:</label>
+        <input type="number" id="search_id" name="search_id" required>
+        <input type="submit" value="Ara">
+    </form>
+
+    <h2>Yeni Document Ekle & Güncelle</h2>
+    <form action="{{ url_for('add_product') }}" method="post">
+        <label for="prinOrderId">PrinOrderId:</label>
+        <input type="number" id="prinOrderId" name="prinOrderId" required><br>
+
+        <label for="receiptId">ReceiptId:</label>
+        <input type="number" id="receiptId" name="receiptId" required><br>
+
+        <label for="fileContent">FileContent:</label>
+        <input type="text" id="fileContent" name="fileContent" required><br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" ><br>
+
+        <input type="submit" value="Ekle&Güncelle">
+    </form>
+    <br>
+
+    <h2>Search Result:</h2>
+
+        {% if result %}
+            <strong style="color: red;">DocumentId:</strong> {{ result.DocumentId }} - 
+            <strong style="color: red;">FileContent:</strong> {{ result.FileContent }} - 
+            <strong style="color: red;">Quantity:</strong> {{ result.Quantity }} - 
+            <strong style="color: red;">PrintOrderId:</strong> {{ result.PrintOrderId }}          
+        {% else %}
+            <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
+        {% endif %}
+
+    <br>
+
+    <h2>Güncel Veritabanı Verileri</h2>
+    
+    <ul>
+        {% for document in all_data %}
+            <li>
+                <strong style="color: red;">DocumentId:</strong> {{ document.DocumentId }} - 
+                <strong style="color: red;">FileContent:</strong> {{ document.FileContent }} - 
+                <strong style="color: red;">Quantity:</strong> {{ document.Quantity }} - 
+                <strong style="color: red;">PrintOrderId:</strong> {{ document.PrintOrderId }}             
+            </li>
+        {% endfor %}
+    </ul>
+    
+        
+</body>
+</html>

@@ -31,6 +31,12 @@ def receipt():
     all_data = db.session.execute(text(sql_query))
     return render_template('receipt.html', all_data = all_data)
 
+@app.route('/document')
+def document():
+    sql_query = "SELECT * FROM Document"
+    all_data = db.session.execute(text(sql_query))
+    return render_template('document.html', all_data = all_data)
+
 
 @app.route('/customer')
 def customer():
@@ -227,7 +233,7 @@ def receipt_info():
         WHERE r.ReceiptId = {receiptId}
         GROUP BY r.ReceiptId, c.Name, c.Surname, e.Name, e.Surname, r.Date;"""
 
-    sql_query_all_data = "SELECT * FROM Receipt"
+    sql_query_all_data = "SELECT * FROM Receipt "
 
 
     result_receipt = db.session.execute(text(sql_receipt_customer_query)).fetchall()
@@ -322,6 +328,54 @@ def add_item():
         isSold = 0
     else:
         isSold = 1
+
+
+    if(not is_item_exist(itemId)):
+        if(isSold == True):
+            sql_add_item= f""" INSERT INTO Item (ItemId, ProductId, ReceiptId, DateBought, DateSold, SellingPrice, ArrivalPrice, IsSold)
+                VALUES
+                ({itemId}, {productId}, {receiptId}, '{dateBought}', '{dateSold}', {sellingPrice}, {arrivalPrice}, {isSold})"""
+            
+            db.session.execute(text(sql_add_item))
+            db.session.commit()
+            return redirect(url_for('item'))
+        
+        else:
+            sql_add_item= f""" INSERT INTO Item (ItemId, ProductId, ReceiptId, DateBought, DateSold, SellingPrice, ArrivalPrice, IsSold)
+                VALUES
+                ({itemId}, {productId}, NULL, '{dateBought}', NULL,NULL, {arrivalPrice}, {isSold})"""
+            
+            db.session.execute(text(sql_add_item))
+            db.session.commit()
+            return redirect(url_for('item'))
+    else:
+        sql_update_item= f""" UPDATE Item
+            SET ProductId = {productId},
+                ReceiptId = {receiptId},
+                DateBought = '{dateBought}',
+                DateSold = '{dateSold}',
+                SellingPrice = {sellingPrice},
+                ArrivalPrice = {arrivalPrice},
+                IsSold = {isSold}
+            WHERE ItemId = {itemId}"""
+            
+        db.session.execute(text(sql_update_item))
+        db.session.commit()
+        return redirect(url_for('item'))
+
+        
+
+        
+@app.route('/add_document', methods=['POST'])
+def add_document():
+    itemId = request.form.get('itemId')
+    productId = request.form.get('productId')
+    receiptId = request.form.get('receiptId')
+    dateBought = request.form.get('dateBought')
+    dateSold = request.form.get('dateSold')
+    sellingPrice = request.form.get('sellingPrice')
+    arrivalPrice = request.form.get('arrivalPrice')
+    isSold = request.form.get('isSold')
 
 
     if(not is_item_exist(itemId)):
@@ -485,6 +539,21 @@ def search_product():
 
     return render_template('product.html', all_data = all_data, result=result,all_categories= all_categories)
 
+
+@app.route('/search_document', methods=['POST'])
+def search_document():
+    search_id = request.form.get('search_id')
+
+    search_sql = f"SELECT * FROM Document WHERE DocumentId = {search_id}"
+
+    result = db.session.execute(text(search_sql)).first()
+
+
+    sql_query_all_data = "SELECT * FROM Document"
+         
+    all_data = db.session.execute(text(sql_query_all_data))
+
+    return render_template('document.html', all_data = all_data, result=result)
 
 if __name__ == "__main__":
     app.run(debug=True)
