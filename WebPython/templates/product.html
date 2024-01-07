@@ -1,0 +1,130 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AliAbiShop</title>
+    <style>
+    
+    #cool-title {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: colorChange 2s infinite; /* Change color every 5 seconds */
+        }
+
+        #tagline {
+            color: #555;
+            font-size: 1.2em;
+            animation: fadeIn 1s ease-in-out, pulsate 3s infinite;
+        }
+
+        /* Optional: Add some animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes colorChange {
+            0% { color: rgb(52, 152, 219);  }
+            20% { color: rgb(231, 76, 60);  }
+            40% { color: rgb(46, 204, 113); }
+            60% { color: rgb(241, 196, 15); }
+            80% { color: rgb(155, 89, 182); }
+            100% { color: rgb(52, 152, 219); }
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
+    <h1 id="cool-title">Ali Abi Shop</h1></a>
+
+    <form action="{{ url_for('search_product') }}" method="post">
+        <label for="search_id">ProductId ile Ara:</label>
+        <input type="number" id="search_id" name="search_id" required>
+        <input type="submit" value="Ara">
+    </form>
+
+
+    <h2>Search Result:</h2>
+
+        {% if result %}
+            <strong style="color: red;">ProductId:</strong> {{ result.ProductId }} - 
+            <strong style="color: red;">Name:</strong> {{ result.Name }} - 
+            <strong style="color: red;">Definition:</strong> {{ result.Definition }} - 
+            <strong style="color: red;">Price:</strong> {{ result.Price }} TL 
+        {% else %}
+            <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
+        {% endif %}
+
+    <br>
+
+
+    
+
+
+    <h2>Yeni Product Ekle & Güncelle</h2>
+    <form action="{{ url_for('add_product') }}" method="post">
+        <label for="productId">ProductId:</label>
+        <input type="number" id="productId" name="productId" required><br>
+
+        <label for="productName">Name:</label>
+        <input type="text" id="productName" name="productName" required><br>
+
+        <label for="productDefinition">Definition:</label>
+        <input type="text" id="productDefinition" name="productDefinition" required><br>
+
+        <label for="productPrice">Price:</label>
+        <input type="number" id="productPrice" name="productPrice" required><br>
+
+        <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="notReq">Seçiniz...</option>
+                {% for category in all_categories %}
+                    <option value="{{ category.Category }}">{{ category.Category }}</option>
+                {% endfor %}
+            </select>
+            &
+            <input type="text" id="categoryNotReq" name="categoryNotReq" ><br>
+
+        <input type="submit" value="Ekle&Güncelle">
+    </form>
+    <br>
+
+    <h2>Product Sil</h2>
+    <form action="{{ url_for('delete_product') }}" method="post">
+        <label for="deleteId">ProductId:</label>
+        <input type="number" id="deleteId" name="deleteId" required><br>
+
+        <input type="submit" value="Sil">
+    </form>
+    
+
+
+
+    <h2>Güncel Veritabanı Verileri</h2>
+
+
+    
+    <ul>
+        {% for product in all_data %}
+            <li>
+                <strong style="color: red;">ProductId:</strong> {{ product.ProductId }} - 
+                <strong style="color: red;">Name:</strong> {{ product.Name }} - 
+                <strong style="color: red;">Definition:</strong> {{ product.Definition }} - 
+                <strong style="color: red;">Price:</strong> {{ product.Price }}             </li>
+        {% endfor %}
+    </ul>
+    
+    
+
+</body>
+</html>
+

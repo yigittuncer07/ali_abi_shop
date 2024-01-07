@@ -44,7 +44,8 @@
 </head>
 <body>
 
-    <h1 id="cool-title">Ali Abi Shop</h1>
+    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
+        <h1 id="cool-title">Ali Abi Shop</h1></a>
 
     <form action="{{ url_for('search_item') }}" method="post">
         <label for="search_id">ItemId ile Ara:</label>
@@ -71,6 +72,50 @@
     <br>
 
 
+    
+
+
+
+    <h2>Yeni Veri Ekle & Güncelle</h2>
+    <form action="{{ url_for('add_item') }}" method="post">
+        <label for="itemId">ItemId:</label>
+        <input type="number" id="itemId" name="itemId" required><br>
+
+        <label for="productId">ProductId:</label>
+        <input type="number" id="productId" name="productId" required><br>
+
+        <label for="receiptId">ReceiptId:</label>
+        <input type="number" id="receiptId" name="receiptId" ><br>
+
+        <label for="dateBought">DateBought:</label>
+        <input type="date" id="dateBought" name="dateBought" required><br>
+
+        <label for="dateSold">DateSold:</label>
+        <input type="date" id="dateSold" name="dateSold" ><br>
+
+        <label for="sellingPrice">SellingPrice:</label>
+        <input type="number" id="sellingPrice" name="sellingPrice" ><br>
+
+        <label for="arrivalPrice">ArrivalPrice:</label>
+        <input type="number" id="arrivalPrice" name="arrivalPrice" required><br>
+
+        <label for="isSold">IsSold:</label>
+        <input type="checkbox" id="isSold" name="isSold" value="true">
+        <br>
+        <input type="submit" value="Ekle&Güncelle">
+    </form>
+    
+
+    
+    <h2>Item Sil</h2>
+    <form action="{{ url_for('delete_item') }}" method="post">
+        <label for="deleteId">ItemId:</label>
+        <input type="number" id="deleteId" name="deleteId" required><br>
+
+        <input type="submit" value="Sil">
+    </form>
+    
+    <br>
 
 
 

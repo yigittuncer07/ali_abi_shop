@@ -44,7 +44,8 @@
 </head>
 <body>
 
-    <h1 id="cool-title">Ali Abi Shop</h1>
+    <a href="{{ url_for('index') }}" style="text-decoration: none;">
+        <h1 id="cool-title">Ali Abi Shop</h1></a>
 
     <div>
         <p>Employee işlemleri için tıklayınız: </p>
@@ -65,6 +66,20 @@
         <p>Item işlemleri için tıklayınız: </p>
         <form action="{{ url_for('item') }}">
             <input type="submit" value="Item" />
+        </form>
+    </div>
+
+    <div>
+        <p>Product işlemleri için tıklayınız: </p>
+        <form action="{{ url_for('product') }}">
+            <input type="submit" value="Product" />
+        </form>
+    </div>
+
+    <div>
+        <p>Receipt işlemleri için tıklayınız: </p>
+        <form action="{{ url_for('receipt') }}">
+            <input type="submit" value="Receipt" />
         </form>
     </div>
     

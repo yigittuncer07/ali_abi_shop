@@ -1,0 +1,122 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AliAbiShop</title>
+    <style>
+    
+    #cool-title {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: colorChange 2s infinite; /* Change color every 5 seconds */
+        }
+
+        #tagline {
+            color: #555;
+            font-size: 1.2em;
+            animation: fadeIn 1s ease-in-out, pulsate 3s infinite;
+        }
+
+        /* Optional: Add some animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes colorChange {
+            0% { color: rgb(52, 152, 219);  }
+            20% { color: rgb(231, 76, 60);  }
+            40% { color: rgb(46, 204, 113); }
+            60% { color: rgb(241, 196, 15); }
+            80% { color: rgb(155, 89, 182); }
+            100% { color: rgb(52, 152, 219); }
+        }
+    </style>
+</head>
+<body>
+
+
+    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
+        <h1 id="cool-title">Ali Abi Shop</h1></a>
+
+
+        <form action="{{ url_for('search_receipt') }}" method="post">
+            <label for="search_id">ReceiptId ile Ara:</label>
+            <input type="number" id="search_id" name="search_id" required>
+            <input type="submit" value="Ara">
+        </form>
+    
+    
+        <h2>Search Result:</h2>
+    
+            {% if result %}
+                <strong style="color: red;">ReceiptId:</strong> {{ result.ReceiptId }} - 
+                <strong style="color: red;">CustomerId:</strong> {{ result.CustomerId }} - 
+                <strong style="color: red;">EmployeeId:</strong> {{ result.EmployeeId }} - 
+                <strong style="color: red;">Date:</strong> {{ result.Date }}         
+            {% else %}
+                <p>Belirtilen ReceiptId ile eşleşen veri bulunamadı.</p>
+            {% endif %}
+    
+      
+
+        <br>
+
+        <h2>Yeni Veri Ekle & Güncelle</h2>
+        <form action="{{ url_for('add_receipt') }}" method="post">
+            <label for="receiptId">ReceiptId:</label>
+            <input type="number" id="receiptId" name="receiptId" required><br>
+
+            <label for="customerId">CustomerId:</label>
+            <input type="text" id="customerId" name="customerId" required><br>
+
+            <label for="employeeId">EmployeeId:</label>
+            <input type="text" id="employeeId" name="employeeId" required><br>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br>
+
+
+            <input type="submit" value="Ekle&Güncelle">
+        </form>
+        
+        <br>
+            
+
+        <h2>Receipt Sil</h2>
+        <form action="{{ url_for('delete_receipt') }}" method="post">
+            <label for="deleteId">ReceiptId:</label>
+            <input type="number" id="deleteId" name="deleteId" required><br>
+
+            <input type="submit" value="Sil">
+        </form>
+
+    
+    
+    <h2>Güncel Veritabanı Verileri</h2>
+
+    <ul>
+        {% for receipt in all_data %}
+            <li>
+                <strong style="color: red;">ReceiptId:</strong> {{ receipt.ReceiptId }} - 
+                <strong style="color: red;">CustomerId:</strong> {{ receipt.CustomerId }} - 
+                <strong style="color: red;">EmployeeId:</strong> {{ receipt.EmployeeId }} - 
+                <strong style="color: red;">Date:</strong> {{ receipt.Date }}             
+            </li>
+        {% endfor %}
+    </ul>
+    
+
+</body>
+</html>
+
+
