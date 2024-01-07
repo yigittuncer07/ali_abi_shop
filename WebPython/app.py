@@ -160,6 +160,11 @@ def is_receipt_exist(requsetId):
     return db.session.execute(text(sql_search)).scalar()
 
 
+
+def is_print_order_exist(requsetId):
+    sql_search = f"SELECT * FROM PrintOrder WHERE PrintOrderId = {requsetId}"
+    return db.session.execute(text(sql_search)).scalar()
+
 @app.route('/add_employee', methods=['POST'])
 def add_employee():
     manuel_employee_id = request.form.get('id')
@@ -380,24 +385,25 @@ def add_document():
     fileContent = request.form.get('fileContent')
     quantity = request.form.get('quantity')
 
-    sql_add_printOrderId = f""" INSERT INTO PrintOrder (PrintOrderId, ReceiptId)
-    VALUES ({printOrderId},{receiptId}) """
-
-    sql_add_document = f"""INSERT INTO Document (FileContent, Quantity, PrintOrderId)
+    if(is_print_order_exist(printOrderId)):
+        sql_add_document = f"""INSERT INTO Document (FileContent, Quantity, PrintOrderId)
         VALUES
         ('{fileContent}', {quantity}, {printOrderId}) """
+        db.session.execute(text(sql_add_document))
+        db.session.commit()
+        return redirect(url_for('document'))
+    else:
+        sql_add_printOrderId = f""" INSERT INTO PrintOrder (PrintOrderId, ReceiptId)
+        VALUES ({printOrderId},{receiptId}) """
 
-
-
-    db.session.execute(text(sql_add_printOrderId))
-    db.session.execute(text(sql_add_document))
-
-    db.session.commit()
-
-    return redirect(url_for('document'))
-
-   
-        
+        sql_add_document = f"""INSERT INTO Document (FileContent, Quantity, PrintOrderId)
+            VALUES
+            ('{fileContent}', {quantity}, {printOrderId}) """
+        db.session.execute(text(sql_add_printOrderId))
+        db.session.execute(text(sql_add_document))
+        db.session.commit()
+        return redirect(url_for('document'))
+           
 
 @app.route('/add_product', methods=['POST'])
 def add_product():
