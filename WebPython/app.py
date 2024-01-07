@@ -368,35 +368,29 @@ def add_item():
         
 @app.route('/add_document', methods=['POST'])
 def add_document():
-    itemId = request.form.get('itemId')
-    productId = request.form.get('productId')
+    printOrderId = request.form.get('printOrderId')
     receiptId = request.form.get('receiptId')
-    dateBought = request.form.get('dateBought')
-    dateSold = request.form.get('dateSold')
-    sellingPrice = request.form.get('sellingPrice')
-    arrivalPrice = request.form.get('arrivalPrice')
-    isSold = request.form.get('isSold')
+    fileContent = request.form.get('fileContent')
+    quantity = request.form.get('quantity')
+
+    sql_add_printOrderId = f""" INSERT INTO PrintOrder (PrintOrderId, ReceiptId)
+    VALUES ({printOrderId},{receiptId}) """
+
+    sql_add_document = f"""INSERT INTO Document (FileContent, Quantity, PrintOrderId)
+        VALUES
+        ('{fileContent}', {quantity}, {printOrderId}) """
 
 
-    if(not is_item_exist(itemId)):
-        if(isSold == True):
-            sql_add_item= f""" INSERT INTO Item (ItemId, ProductId, ReceiptId, DateBought, DateSold, SellingPrice, ArrivalPrice, IsSold)
-                VALUES
-                ({itemId}, {productId}, {receiptId}, '{dateBought}', '{dateSold}', {sellingPrice}, {arrivalPrice}, {isSold})"""
-            
-            db.session.execute(text(sql_add_item))
-            db.session.commit()
-            return redirect(url_for('item'))
+
+    db.session.execute(text(sql_add_printOrderId))
+    db.session.execute(text(sql_add_document))
+
+    db.session.commit()
+
+    return redirect(url_for('document'))
+
+   
         
-        else:
-            sql_add_item= f""" INSERT INTO Item (ItemId, ProductId, ReceiptId, DateBought, DateSold, SellingPrice, ArrivalPrice, IsSold)
-                VALUES
-                ({itemId}, {productId}, NULL, '{dateBought}', NULL,NULL, {arrivalPrice}, {isSold})"""
-            
-            db.session.execute(text(sql_add_item))
-            db.session.commit()
-            return redirect(url_for('item'))
-
 
 @app.route('/add_product', methods=['POST'])
 def add_product():

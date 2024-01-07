@@ -22,10 +22,24 @@
         <input type="submit" value="Ara">
     </form>
 
-    <h2>Yeni Document Ekle & Güncelle</h2>
-    <form action="{{ url_for('add_product') }}" method="post">
-        <label for="prinOrderId">PrinOrderId:</label>
-        <input type="number" id="prinOrderId" name="prinOrderId" required><br>
+    <h2>Search Result:</h2>
+
+    {% if result %}
+        <strong style="color: red;">DocumentId:</strong> {{ result.DocumentId }} - 
+        <strong style="color: red;">FileContent:</strong> {{ result.FileContent }} - 
+        <strong style="color: red;">Quantity:</strong> {{ result.Quantity }} - 
+        <strong style="color: red;">PrintOrderId:</strong> {{ result.PrintOrderId }}          
+    {% else %}
+        <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
+    {% endif %}
+
+    <br>
+
+
+    <h2>Yeni Document Ekle</h2>
+    <form action="{{ url_for('add_document') }}" method="post">
+        <label for="printOrderId">PrinOrderId:</label>
+        <input type="number" id="printOrderId" name="printOrderId" required><br>
 
         <label for="receiptId">ReceiptId:</label>
         <input type="number" id="receiptId" name="receiptId" required><br>
@@ -36,22 +50,10 @@
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" ><br>
 
-        <input type="submit" value="Ekle&Güncelle">
+        <input type="submit" value="Ekle">
     </form>
     <br>
 
-    <h2>Search Result:</h2>
-
-        {% if result %}
-            <strong style="color: red;">DocumentId:</strong> {{ result.DocumentId }} - 
-            <strong style="color: red;">FileContent:</strong> {{ result.FileContent }} - 
-            <strong style="color: red;">Quantity:</strong> {{ result.Quantity }} - 
-            <strong style="color: red;">PrintOrderId:</strong> {{ result.PrintOrderId }}          
-        {% else %}
-            <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
-        {% endif %}
-
-    <br>
 
     <h2>Güncel Veritabanı Verileri</h2>
     
