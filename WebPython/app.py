@@ -562,5 +562,29 @@ def search_document():
 
     return render_template('document.html', all_data = all_data, result=result)
 
+
+@app.route('/search_receipt_detail', methods=['POST'])
+def search_receipt_detail():
+    search_id_detail = request.form.get('search_id_detail')
+
+    search_sql = f"""SELECT r.ReceiptId, p.Name, p.Definition,c.Category ,i.SellingPrice, i.DateSold
+        FROM Receipt r
+
+		INNER JOIN Item i ON r.ReceiptId = i.ReceiptId
+		INNER JOIN Product p ON p.ProductId= i.ProductId
+		INNER JOIN Category c ON c.ProductId= p.ProductId
+
+        WHERE r.ReceiptId = {search_id_detail}"""
+
+    receipt_detail_all = db.session.execute(text(search_sql)).fetchall()
+
+
+    sql_query_all_data = "SELECT * FROM Receipt"
+      
+    all_data = db.session.execute(text(sql_query_all_data))
+
+    return render_template('receipt.html', all_data = all_data, receipt_detail_all=receipt_detail_all)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

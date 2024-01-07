@@ -11,9 +11,9 @@
         <h1 id="cool-title">Fatura Islemleri</h1>
     </a>
 
-    <h2>Musteri Numarasi ile Ara</h2>
+    <h2>Fatura Numarasi ile Ara</h2>
     <form action="{{ url_for('search_receipt') }}" method="post">
-        <input type="number" id="search_id" name="search_id" required placeholder="musteri numarasi">
+        <input type="number" id="search_id" name="search_id" required placeholder="fatura numarasi">
         <input type="submit" value="ara">
     </form>
     
@@ -33,6 +33,38 @@
     {% endif %}
 
     <br>
+    <h2>Fatura Icerigini Goruntule</h2>
+    <form action="{{ url_for('search_receipt_detail') }}" method="post">
+        <input type="number" id="search_id_detail" name="search_id_detail" required placeholder="fatura numarasi">
+        <input type="submit" value="ara">
+    </form>
+    {% if receipt_detail_all %}
+        <table>
+            
+            <tr>
+                <th>ReceiptId</th>
+                <th>Name</th>
+                <th>Definition</th>
+                <th>Category</th>
+                <th>SellingPrice</th>
+                <th>DateSold</th>
+            </tr>
+            {% for receipt_detail in receipt_detail_all %}
+            <tr>
+                <td>{{ receipt_detail.ReceiptId }}</td>
+                <td>{{ receipt_detail.Name }}</td>
+                <td>{{ receipt_detail.Definition }}</td>
+                <td>{{ receipt_detail.Category }}</td>
+                <td>{{ receipt_detail.SellingPrice }}</td>
+                <td>{{ receipt_detail.DateSold }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Belirtilen fatura numarasi ile eşleşen veri bulunamadı.</p>
+    {% endif %}
+
+    <br>
 
     <h2>Yeni Veri Ekle & Güncelle</h2>
     <form action="{{ url_for('add_receipt') }}" method="post">
@@ -46,7 +78,7 @@
     
     <br>
 
-    <h2>Fatura Numarasi Ile Ara</h2>
+    <h2>Fatura Numarasi Ile Detaylı Ara</h2>
     <form action="{{ url_for('receipt_info') }}" method="post">
         <input type="number" id="receipt_customer_id" name="receipt_customer_id" required placeholder="fatura numarasi"><br>
         <input type="submit" value="görüntüle">
