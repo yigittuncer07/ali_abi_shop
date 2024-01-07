@@ -34,6 +34,15 @@ def customer():
 
     return render_template('customer.html', all_data = all_data)
 
+@app.route('/item')
+def item():
+
+    sql_query = "SELECT * FROM Item"
+      
+    all_data = db.session.execute(text(sql_query))
+
+    return render_template('item.html', all_data = all_data)
+
 
 @app.route('/menu')
 def menu():
@@ -246,6 +255,22 @@ def search_customer():
     all_data = db.session.execute(text(sql_query_all_data))
 
     return render_template('customer.html', all_data = all_data, result=result)
+
+@app.route('/search_item', methods=['POST'])
+def search_item():
+    search_id = request.form.get('search_id')
+
+    search_sql = f"SELECT * FROM Item WHERE ItemId = {search_id}"
+
+    result = db.session.execute(text(search_sql)).first()
+
+
+    sql_query_all_data = "SELECT * FROM Item"
+      
+    all_data = db.session.execute(text(sql_query_all_data))
+
+    return render_template('item.html', all_data = all_data, result=result)
+
 
 
 if __name__ == "__main__":

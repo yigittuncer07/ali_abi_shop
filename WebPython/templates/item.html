@@ -1,0 +1,102 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AliAbiShop</title>
+    <style>
+    
+    #cool-title {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: colorChange 2s infinite; /* Change color every 5 seconds */
+        }
+
+        #tagline {
+            color: #555;
+            font-size: 1.2em;
+            animation: fadeIn 1s ease-in-out, pulsate 3s infinite;
+        }
+
+        /* Optional: Add some animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes colorChange {
+            0% { color: rgb(52, 152, 219);  }
+            20% { color: rgb(231, 76, 60);  }
+            40% { color: rgb(46, 204, 113); }
+            60% { color: rgb(241, 196, 15); }
+            80% { color: rgb(155, 89, 182); }
+            100% { color: rgb(52, 152, 219); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="cool-title">Ali Abi Shop</h1>
+
+    <form action="{{ url_for('search_item') }}" method="post">
+        <label for="search_id">ItemId ile Ara:</label>
+        <input type="number" id="search_id" name="search_id" required>
+        <input type="submit" value="Ara">
+    </form>
+
+
+    <h2>Search Result:</h2>
+
+    {% if result %}
+        <strong style="color: red;">ItemId:</strong> {{ result.ItemId }} - 
+        <strong style="color: red;">ProductId:</strong> {{ result.ProductId }} - 
+        <strong style="color: red;">ReceiptId:</strong> {{ result.ReceiptId }} - 
+        <strong style="color: red;">DateBought:</strong> {{ result.DateBought }} -
+        <strong style="color: red;">DateSold:</strong> {{ result.DateSold }} - 
+        <strong style="color: red;">SellingPrice:</strong> {{ result.SellingPrice }} - 
+        <strong style="color: red;">ArrivalPrice:</strong> {{ result.ArrivalPrice }} - 
+        <strong style="color: red;">IsSold:</strong> {{ result.IsSold }} 
+    {% else %}
+        <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
+    {% endif %}
+
+    <br>
+
+
+
+
+
+
+    <h2>Güncel Veritabanı Verileri</h2>
+
+
+    
+    <ul>
+        {% for item in all_data %}
+            <li>
+                <strong style="color: red;">ItemId:</strong> {{ item.ItemId }} - 
+                <strong style="color: red;">ProductId:</strong> {{ item.ProductId }} - 
+                <strong style="color: red;">ReceiptId:</strong> {{ item.ReceiptId }} - 
+                <strong style="color: red;">DateBought:</strong> {{ item.DateBought }} -
+                <strong style="color: red;">DateSold:</strong> {{ item.DateSold }} - 
+                <strong style="color: red;">SellingPrice:</strong> {{ item.SellingPrice }} - 
+                <strong style="color: red;">ArrivalPrice:</strong> {{ item.ArrivalPrice }} - 
+                <strong style="color: red;">IsSold:</strong> {{ item.IsSold }} 
+            </li>
+        {% endfor %}
+    </ul>
+    
+    
+
+</body>
+</html>
+
+
