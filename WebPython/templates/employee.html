@@ -1,117 +1,108 @@
-<!-- templates/index.html -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calisan Islemleri</title>
     <link rel="stylesheet" href="static/style.css">
-    <title>AliAbiShop</title>
-  
 </head>
 <body>
 
-
-
-    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
-        <h1 id="cool-title">Ali Abi Shop</h1></a>
-        
+    <a href="{{ url_for('menu') }}">
+        <h1 id="cool-title">Calisan Islemleri</h1>
+    </a>
+    
+    <h2>Calisan Numarasi ile Ara</h2>
     <form action="{{ url_for('search_employee') }}" method="post">
-        <label for="search_id">EmployeeId ile Ara:</label>
-        <input type="number" id="search_id" name="search_id" required>
-        <input type="submit" value="Ara">
+        <input type="number" id="search_id" name="search_id" placeholder="calisan numarasi" required>
+        <input type="submit" value="ara">
     </form>
 
 
-    <h2>Search Result:</h2>
-
     {% if result %}
-        <strong style="color: red;">EmployeeId:</strong> {{ result.EmployeeId }} - 
-        <strong style="color: red;">Name:</strong> {{ result.Name }} - 
-        <strong style="color: red;">Surname:</strong> {{ result.Surname }} - 
-        <strong style="color: red;">Password:</strong> {{ result.Password }} - 
-        <strong style="color: red;">Email:</strong> {{ result.Email }} - 
-        <strong style="color: red;">Salary:</strong> {{ result.Salary }} - 
-        <strong style="color: red;">WorkEntranceDate:</strong> {{ result.WorkEntranceDate }} - 
-        <strong style="color: red;">BirthDate:</strong> {{ result.BirthDate }} - 
-        <strong style="color: red;">PhoneNumber:</strong> {{ result.PhoneNumber }} - 
-        <strong style="color: red;">Age:</strong> {{ result.Age }} - 
-        <strong style="color: red;">ManagerId:</strong> {{ result.ManagerId }} 
-    {% else %}
-        <p>Belirtilen EmployeeId ile eşleşen veri bulunamadı.</p>
-    {% endif %}
+        <h2>Arama Sonucu</h2>
+        <p>
+            <strong >EmployeeId:</strong> {{ result.EmployeeId }} - 
+            <strong >Name:</strong> {{ result.Name }} - 
+            <strong >Surname:</strong> {{ result.Surname }} - 
+            <strong >Password:</strong> {{ result.Password }} - 
+            <strong >Email:</strong> {{ result.Email }} - 
+            <strong >Salary:</strong> {{ result.Salary }} - 
+            <strong >WorkEntranceDate:</strong> {{ result.WorkEntranceDate }} - 
+            <strong >BirthDate:</strong> {{ result.BirthDate }} - 
+            <strong >PhoneNumber:</strong> {{ result.PhoneNumber }} - 
+            <strong >Age:</strong> {{ result.Age }} - 
+            <strong >ManagerId:</strong> {{ result.ManagerId }} 
+        </p>
 
+    {% else %}
+        {% if result is not defined %}
+        {% else %}
+            <p>Belirtilen calisan numarasi ile eşleşen veri bulunamadı.</p>
+        {% endif %}
+    {% endif %}
     <br>
     
     <h2>Yeni Veri Ekle & Güncelle</h2>
     <form action="{{ url_for('add_employee') }}" method="post">
-        <label for="id">EmployeeId:</label>
-        <input type="number" id="id" name="id" required><br>
-
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
-
-        <label for="surname">Surname:</label>
-        <input type="text" id="surname" name="surname" required><br>
-
-        <label for="password">Password:</label>
-        <input type="text" id="password" name="password" required><br>
-
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required><br>
-
-        <label for="salary">Salary:</label>
-        <input type="number" id="salary" name="salary" required><br>
-
-        <label for="workEntranceDate">Work Entrance Date:</label>
-        <input type="date" id="workEntranceDate" name="workEntranceDate" required><br>
-
-        <label for="birthDate">Birth Date:</label>
+        <input type="number" id="id" name="id" required placeholder="EmployeeId"><br>
+        <input type="text" id="name" name="name" required placeholder="Name"><br>
+        <input type="text" id="surname" name="surname" required placeholder="Surname"><br>
+        <input type="text" id="password" name="password" required placeholder="Password"><br>
+        <input type="text" id="email" name="email" required placeholder="Email"><br>
+        <input type="number" id="salary" name="salary" required placeholder="Salary"><br>
+        <label for="birthDate">Is Giris Tarihi:</label>
+        <input type="date" id="workEntranceDate" name="workEntranceDate" required placeholder= "Work Entrance Date"><br>
+        <label for="birthDate">Dogum Tarihi:</label>
         <input type="date" id="birthDate" name="birthDate" required><br>
-
-        <label for="phoneNumber">Phone Number:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" required><br>
-
-        <label for="managerId">Manager Id:</label>
-        <input type="number" id="managerId" name="managerId"><br>
-
-        <input type="submit" value="Ekle&Güncelle">
+        <input type="text" id="phoneNumber" name="phoneNumber" required placeholder="telefon numarasi"><br>
+        <input type="number" id="managerId" name="managerId" placeholder="manager numarasi"><br>
+        <input type="submit" value="ekle ve guncelle">
     </form>
-    
     <br>
 
-
-    <h2>Employee Sil</h2>
+    <h2>Calisan Sil</h2>
     <form action="{{ url_for('delete_employee') }}" method="post">
-        <label for="deleteId">EmployeeId:</label>
-        <input type="number" id="deleteId" name="deleteId" required><br>
-
+        <input type="number" id="deleteId" name="deleteId" required placeholder="calisan numarasi"><br>
         <input type="submit" value="Sil">
     </form>
     
 
     <h2>Güncel Veritabanı Verileri</h2>
-
-
-    
-    <ul>
-        {% for employee in all_data %}
-            <li>
-                <strong style="color: red;">EmployeeId:</strong> {{ employee.EmployeeId }} - 
-                <strong style="color: red;">Name:</strong> {{ employee.Name }} - 
-                <strong style="color: red;">Surname:</strong> {{ employee.Surname }} - 
-                <strong style="color: red;">Password:</strong> {{ employee.Password }} - 
-                <strong style="color: red;">Email:</strong> {{ employee.Email }} - 
-                <strong style="color: red;">Salary:</strong> {{ employee.Salary }} - 
-                <strong style="color: red;">WorkEntranceDate:</strong> {{ employee.WorkEntranceDate }} - 
-                <strong style="color: red;">BirthDate:</strong> {{ employee.BirthDate }} - 
-                <strong style="color: red;">PhoneNumber:</strong> {{ employee.PhoneNumber }} - 
-                <strong style="color: red;">ManagerId:</strong> {{ employee.ManagerId }} -
-                <strong style="color: red;">Age:</strong> {{ employee.Age }} <br> <br><br>
- 
-            </li>
-        {% endfor %}
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>EmployeeId</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th>WorkEntranceDate</th>
+                <th>BirthDate</th>
+                <th>PhoneNumber</th>
+                <th>ManagerId</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in all_data %}
+                <tr>
+                    <td>{{ employee.EmployeeId }}</td>
+                    <td>{{ employee.Name }}</td>
+                    <td>{{ employee.Surname }}</td>
+                    <td>{{ employee.Password }}</td>
+                    <td>{{ employee.Email }}</td>
+                    <td>{{ employee.Salary }}</td>
+                    <td>{{ employee.WorkEntranceDate }}</td>
+                    <td>{{ employee.BirthDate }}</td>
+                    <td>{{ employee.PhoneNumber }}</td>
+                    <td>{{ employee.ManagerId }}</td>
+                    <td>{{ employee.Age }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 
 

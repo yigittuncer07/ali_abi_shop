@@ -1,97 +1,87 @@
-<!-- templates/index.html -->
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AliAbiShop</title>
+    <title>Urun Islemleri</title>
     <link rel="stylesheet" href="static/style.css">
-
 </head>
 <body>
-    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
-    <h1 id="cool-title">Ali Abi Shop</h1></a>
 
+    <a href="{{ url_for('menu') }}">
+        <h1 id="cool-title">Urun Islemleri</h1>
+    </a>
+
+    <h2>Urun Numarasi ile Ara</h2>
     <form action="{{ url_for('search_product') }}" method="post">
-        <label for="search_id">ProductId ile Ara:</label>
-        <input type="number" id="search_id" name="search_id" required>
-        <input type="submit" value="Ara">
+        <input type="number" id="search_id" name="search_id" required placeholder=urun numarasi"">
+        <input type="submit" value="ara">
     </form>
 
-
-    <h2>Search Result:</h2>
-
-        {% if result %}
-            <strong style="color: red;">ProductId:</strong> {{ result.ProductId }} - 
-            <strong style="color: red;">Name:</strong> {{ result.Name }} - 
-            <strong style="color: red;">Definition:</strong> {{ result.Definition }} - 
-            <strong style="color: red;">Price:</strong> {{ result.Price }} TL 
+    {% if result %}
+        <div>
+            <h2>Arama Sonucu</h2>
+            <strong>ProductId:</strong> {{ result.ProductId }} - 
+            <strong>Name:</strong> {{ result.Name }} - 
+            <strong>Definition:</strong> {{ result.Definition }} - 
+            <strong>Price:</strong> {{ result.Price }} TL 
+        </div>
+    {% else %}
+        {% if result is not defined %}
         {% else %}
-            <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
+            <p>Belirtilen calisan numarasi ile eşleşen veri bulunamadı.</p>
         {% endif %}
+    {% endif %}
 
     <br>
 
-
-    
-
-
-    <h2>Yeni Product Ekle & Güncelle</h2>
+    <h2>Yeni Urun Ekle ve Güncelle</h2>
     <form action="{{ url_for('add_product') }}" method="post">
-        <label for="productId">ProductId:</label>
-        <input type="number" id="productId" name="productId" required><br>
-
-        <label for="productName">Name:</label>
-        <input type="text" id="productName" name="productName" required><br>
-
-        <label for="productDefinition">Definition:</label>
-        <input type="text" id="productDefinition" name="productDefinition" required><br>
-
-        <label for="productPrice">Price:</label>
-        <input type="number" id="productPrice" name="productPrice" required><br>
-
-        <label for="category">Category:</label>
+        <input type="number" id="productId" name="productId" required placeholder="urun numarasi"><br>
+        <input type="text" id="productName" name="productName" required placeholder="isim"><br>
+        <input type="text" id="productDefinition" name="productDefinition" required placeholder="tanim"><br>
+        <input type="number" id="productPrice" name="productPrice" required placeholder="fiyat"><br>
+        <label for="category">kategori seciniz:</label>
             <select id="category" name="category" required>
-                <option value="notReq">Seçiniz...</option>
+                <option value="notReq">seçiniz...</option>
                 {% for category in all_categories %}
                     <option value="{{ category.Category }}">{{ category.Category }}</option>
                 {% endfor %}
             </select>
-            &
+            <p style="text-align: left">
+            veya kendiniz giriniz:
+            </p>
             <input type="text" id="categoryNotReq" name="categoryNotReq" ><br>
 
         <input type="submit" value="Ekle&Güncelle">
     </form>
     <br>
 
-    <h2>Product Sil</h2>
+    <h2>Urun Sil</h2>
     <form action="{{ url_for('delete_product') }}" method="post">
-        <label for="deleteId">ProductId:</label>
-        <input type="number" id="deleteId" name="deleteId" required><br>
-
-        <input type="submit" value="Sil">
+        <input type="number" id="deleteId" name="deleteId" required placeholder="urun numarasi"><br>
+        <input type="submit" value="sil">
     </form>
     
-
-
-
     <h2>Güncel Veritabanı Verileri</h2>
 
-
-    
-    <ul>
+    <table>
+        <tr>
+            <th>ProductID</th>
+            <th>Name</th>
+            <th>Definition</th>
+            <th>Price</th>
+        </tr>
         {% for product in all_data %}
-            <li>
-                <strong style="color: red;">ProductId:</strong> {{ product.ProductId }} - 
-                <strong style="color: red;">Name:</strong> {{ product.Name }} - 
-                <strong style="color: red;">Definition:</strong> {{ product.Definition }} - 
-                <strong style="color: red;">Price:</strong> {{ product.Price }}             </li>
+        <tr>
+            <td>{{ product.ProductId }}</td>
+            <td>{{ product.Name }}</td>
+            <td>{{ product.Definition }}</td>
+            <td>{{ product.Price }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
     
-    
-
 </body>
 </html>
 

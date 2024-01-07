@@ -1,55 +1,40 @@
-<!-- templates/index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENU</title>
     <link rel="stylesheet" href="static/style.css">
-    <title>AliAbiShop</title>
 </head>
 <body>
-
     <a href="{{ url_for('index') }}" style="text-decoration: none;">
-        <h1 id="cool-title">Ali Abi Shop</h1></a>
-
+        <h1 id="cool-title">MENU</h1>
+    </a>
     <div>
-        <p>Employee işlemleri için tıklayınız: </p>
         <form action="{{ url_for('employee') }}">
-            <input type="submit" value="Employee" />
+            <input type="submit" value="CALISAN ISLEMLERI" />
         </form>
     </div>
-
-
     <div>
-        <p>Customer işlemleri için tıklayınız: </p>
         <form action="{{ url_for('customer') }}">
-            <input type="submit" value="Customer" />
+            <input type="submit" value="MUSTERI ISLEMLERI" />
         </form>
     </div>
-
     <div>
-        <p>Item işlemleri için tıklayınız: </p>
         <form action="{{ url_for('item') }}">
-            <input type="submit" value="Item" />
+            <input type="submit" value="ESYA ISLEMLERI" />
         </form>
     </div>
-
     <div>
-        <p>Product işlemleri için tıklayınız: </p>
         <form action="{{ url_for('product') }}">
-            <input type="submit" value="Product" />
+            <input type="submit" value="URUN ISLEMLERI" />
         </form>
     </div>
-
     <div>
-        <p>Receipt işlemleri için tıklayınız: </p>
         <form action="{{ url_for('receipt') }}">
-            <input type="submit" value="Receipt" />
+            <input type="submit" value="FATURA ISLEMLERI" />
         </form>
     </div>
-    
-
 </body>
 </html>
 
