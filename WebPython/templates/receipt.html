@@ -47,19 +47,71 @@
 
     <a href="{{ url_for('menu') }}" style="text-decoration: none;">
         <h1 id="cool-title">Ali Abi Shop</h1></a>
+
+
+        <form action="{{ url_for('search_receipt') }}" method="post">
+            <label for="search_id">ReceiptId ile Ara:</label>
+            <input type="number" id="search_id" name="search_id" required>
+            <input type="submit" value="Ara">
+        </form>
+    
+    
+        <h2>Search Result:</h2>
+    
+            {% if result %}
+                <strong style="color: red;">ReceiptId:</strong> {{ result.ReceiptId }} - 
+                <strong style="color: red;">CustomerId:</strong> {{ result.CustomerId }} - 
+                <strong style="color: red;">EmployeeId:</strong> {{ result.EmployeeId }} - 
+                <strong style="color: red;">Date:</strong> {{ result.Date }}         
+            {% else %}
+                <p>Belirtilen ReceiptId ile eşleşen veri bulunamadı.</p>
+            {% endif %}
+    
+      
+
+        <br>
+
+        <h2>Yeni Veri Ekle & Güncelle</h2>
+        <form action="{{ url_for('add_receipt') }}" method="post">
+            <label for="receiptId">ReceiptId:</label>
+            <input type="number" id="receiptId" name="receiptId" required><br>
+
+            <label for="customerId">CustomerId:</label>
+            <input type="text" id="customerId" name="customerId" required><br>
+
+            <label for="employeeId">EmployeeId:</label>
+            <input type="text" id="employeeId" name="employeeId" required><br>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br>
+
+
+            <input type="submit" value="Ekle&Güncelle">
+        </form>
+        
+        <br>
+            
+
+        <h2>Receipt Sil</h2>
+        <form action="{{ url_for('delete_receipt') }}" method="post">
+            <label for="deleteId">ReceiptId:</label>
+            <input type="number" id="deleteId" name="deleteId" required><br>
+
+            <input type="submit" value="Sil">
+        </form>
+
     
     
     <h2>Güncel Veritabanı Verileri</h2>
 
-
-    
     <ul>
         {% for receipt in all_data %}
             <li>
                 <strong style="color: red;">ReceiptId:</strong> {{ receipt.ReceiptId }} - 
                 <strong style="color: red;">CustomerId:</strong> {{ receipt.CustomerId }} - 
                 <strong style="color: red;">EmployeeId:</strong> {{ receipt.EmployeeId }} - 
-                <strong style="color: red;">Date:</strong> {{ receipt.Date }}             </li>
+                <strong style="color: red;">Date:</strong> {{ receipt.Date }}             
+            </li>
         {% endfor %}
     </ul>
     

@@ -116,6 +116,18 @@ def delete_customer():
 
     return redirect(url_for('customer'))
 
+
+@app.route('/delete_receipt', methods=['POST'])
+def delete_receipt():
+
+    sql_delete_query = f"DELETE FROM Receipt WHERE ReceiptId = {request.form.get('deleteId')}"
+      
+    db.session.execute(text(sql_delete_query))
+    
+    db.session.commit()
+
+    return redirect(url_for('receipt'))
+
 @app.route('/delete_item', methods=['POST'])
 def delete_item():
 
@@ -159,6 +171,11 @@ def is_product_exist(requsetId):
 
 def is_item_exist(requsetId):
     sql_search = f"SELECT * FROM Item WHERE ItemId = {requsetId}"
+
+    return db.session.execute(text(sql_search)).scalar()
+
+def is_receipt_exist(requsetId):
+    sql_search = f"SELECT * FROM Receipt WHERE ReceiptId = {requsetId}"
 
     return db.session.execute(text(sql_search)).scalar()
 
@@ -274,6 +291,48 @@ def add_customer():
 
         return redirect(url_for('customer'))
     
+
+
+
+
+@app.route('/add_receipt', methods=['POST'])
+def add_receipt():
+
+
+    receipt_Id = request.form.get('receiptId')
+    customer_Id = request.form.get('customerId')
+    employee_Id = request.form.get('employeeId')
+    date = request.form.get('date')
+
+
+    if(not(is_receipt_exist(request.form.get('receiptId')))):
+
+        sql_add_customer = f"""EXEC [dbo].[AddReceipt] 
+            @ReceiptId = {receipt_Id},
+            @CustomerId = '{customer_Id}',
+            @EmployeeId = '{employee_Id}',
+            @Date = '{date}' """
+
+        db.session.execute(text(sql_add_customer))
+
+        db.session.commit()
+
+        return redirect(url_for('receipt'))
+    else:
+        sql_update_customer = f""" UPDATE Receipt SET
+            CustomerId = '{customer_Id}',
+            EmployeeId = '{employee_Id}',
+            Date = '{date}'
+        WHERE ReceiptId = {receipt_Id} """
+
+        db.session.execute(text(sql_update_customer))
+
+        db.session.commit()
+
+        return redirect(url_for('receipt'))
+
+
+
 @app.route('/add_item', methods=['POST'])
 
 def add_item():
@@ -431,6 +490,23 @@ def search_item():
     all_data = db.session.execute(text(sql_query_all_data))
 
     return render_template('item.html', all_data = all_data, result=result)
+
+
+
+@app.route('/search_receipt', methods=['POST'])
+def search_receipt():
+    search_id = request.form.get('search_id')
+
+    search_sql = f"SELECT * FROM Receipt WHERE ReceiptId = {search_id}"
+
+    result = db.session.execute(text(search_sql)).first()
+
+
+    sql_query_all_data = "SELECT * FROM Receipt"
+      
+    all_data = db.session.execute(text(sql_query_all_data))
+
+    return render_template('receipt.html', all_data = all_data, result=result)
 
 @app.route('/search_product', methods=['POST'])
 def search_product():
