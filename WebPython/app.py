@@ -213,6 +213,30 @@ def receipt_customer():
     return render_template('customer.html', all_data=all_data, result_receipt=result_receipt)
 
 
+@app.route('/receipt_info', methods=['POST'])
+def receipt_info():
+    receiptId =  request.form.get('receipt_customer_id')
+
+    sql_receipt_customer_query = f"""SELECT r.ReceiptId, c.Name as CustomerName, c.Surname as CustomerSurname,
+       e.Name as EmployeeName, e.Surname as EmployeeSurname, r.Date,
+       SUM(i.SellingPrice) as SellingPriceCount
+        FROM Receipt r
+        INNER JOIN Customer c ON c.CustomerId = r.CustomerId
+        INNER JOIN Employee e ON r.EmployeeId = e.EmployeeId
+        INNER JOIN Item i ON r.ReceiptId = i.ReceiptId
+        WHERE r.ReceiptId = {receiptId}
+        GROUP BY r.ReceiptId, c.Name, c.Surname, e.Name, e.Surname, r.Date;"""
+
+    sql_query_all_data = "SELECT * FROM Receipt"
+
+
+    result_receipt = db.session.execute(text(sql_receipt_customer_query)).fetchall()
+    all_data = db.session.execute(text(sql_query_all_data))
+
+
+    return render_template('receipt.html', all_data=all_data, result_receipt=result_receipt)
+
+
 @app.route('/add_customer', methods=['POST'])
 def add_customer():
     manuel_customer_id = request.form.get('id')
@@ -367,6 +391,7 @@ def add_product():
         db.session.commit()
 
         return redirect(url_for('product'))
+
 
 @app.route('/search_employee', methods=['POST'])
 def search_employee():
