@@ -90,6 +90,33 @@
         </form>
         
         <br>
+
+        <h2>Receipt Fiş</h2>
+        <form action="{{ url_for('receipt_info') }}" method="post">
+            <label for="receipt_customer_id">CustomerId:</label>
+            <input type="number" id="receipt_customer_id" name="receipt_customer_id" required><br>
+            <input type="submit" value="Görüntüle">
+        </form>
+        
+        
+    
+        <ul>
+            {% for receipt in result_receipt %}
+                <li>
+                    <strong style="color: red;">ReceiptId:</strong> {{ receipt.ReceiptId }} - 
+                    <strong style="color: red;">CustomerName:</strong> {{ receipt.CustomerName }} - 
+                    <strong style="color: red;">CustomerSurname:</strong> {{ receipt.CustomerSurname }} - 
+                    <strong style="color: red;">EmployeeName:</strong> {{ receipt.EmployeeName }} -
+                    <strong style="color: red;">EmployeeSurname:</strong> {{ receipt.EmployeeSurname }} -
+                    <strong style="color: red;">Date:</strong> {{ receipt.Date }} 
+                    <strong style="color: red;">Sum:</strong> {{ receipt.SellingPriceCount }} TL
+                </li>
+            {% endfor %}
+    
+        </ul>    
+        
+        
+        <br>
             
 
         <h2>Receipt Sil</h2>
