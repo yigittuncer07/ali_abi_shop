@@ -1,71 +1,67 @@
-<!-- templates/index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/style.css">
-    <title>AliAbiShop</title>
+    <title>Documan Islemleri</title>
     <link rel="stylesheet" href="static/style.css">
-
 </head>
 <body>
-
-    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
-        <h1 id="cool-title">Ali Abi Shop</h1>
+    
+    <a href="{{ url_for('menu') }}">
+        <h1 id="cool-title">Documan Islemleri</h1>
     </a>
 
+    <h2>Documan Numarasi ile Ara</h2>
     <form action="{{ url_for('search_document') }}" method="post">
-        <label for="search_id">DocumentId ile Ara:</label>
-        <input type="number" id="search_id" name="search_id" required>
-        <input type="submit" value="Ara">
+        <input type="number" id="search_id" name="search_id" required placeholder="documan numarasi">
+        <input type="submit" value="ara">
     </form>
 
-    <h2>Yeni Document Ekle & Güncelle</h2>
+    <h2>Yeni Document Ekle Veya Güncelle</h2>
     <form action="{{ url_for('add_product') }}" method="post">
-        <label for="prinOrderId">PrinOrderId:</label>
-        <input type="number" id="prinOrderId" name="prinOrderId" required><br>
-
-        <label for="receiptId">ReceiptId:</label>
-        <input type="number" id="receiptId" name="receiptId" required><br>
-
-        <label for="fileContent">FileContent:</label>
-        <input type="text" id="fileContent" name="fileContent" required><br>
-
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" ><br>
-
-        <input type="submit" value="Ekle&Güncelle">
+        <input type="number" id="prinOrderId" name="prinOrderId" required placeholder="siparis numarasi"><br>
+        <input type="number" id="receiptId" name="receiptId" required placeholder="fatura numarasi"><br>
+        <input type="text" id="fileContent" name="fileContent" required placeholder="dosya icerigi"><br>
+        <input type="number" id="quantity" name="quantity" placeholder="sayi"><br>
+        <input type="submit" value="Ekle veya Güncelle">
     </form>
+
     <br>
 
-    <h2>Search Result:</h2>
-
-        {% if result %}
-            <strong style="color: red;">DocumentId:</strong> {{ result.DocumentId }} - 
-            <strong style="color: red;">FileContent:</strong> {{ result.FileContent }} - 
-            <strong style="color: red;">Quantity:</strong> {{ result.Quantity }} - 
-            <strong style="color: red;">PrintOrderId:</strong> {{ result.PrintOrderId }}          
+    {% if result %}
+        <h2>Arama Sonucu</h2>
+        <strong>DocumentId:</strong> {{ result.DocumentId }} - 
+        <strong>FileContent:</strong> {{ result.FileContent }} - 
+        <strong>Quantity:</strong> {{ result.Quantity }} - 
+        <strong>PrintOrderId:</strong> {{ result.PrintOrderId }}          
+    {% else %}
+        {% if result is not defined %}
         {% else %}
-            <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
+            <p>Belirtilen calisan numarasi ile eşleşen veri bulunamadı.</p>
         {% endif %}
+    {% endif %}
 
     <br>
 
     <h2>Güncel Veritabanı Verileri</h2>
-    
-    <ul>
+    <table>
+        <tr>
+            <th>DocumentId</th>
+            <th>FileContent</th>
+            <th>Quantity</th>
+            <th>PrintOrderId</th>
+        </tr>
         {% for document in all_data %}
-            <li>
-                <strong style="color: red;">DocumentId:</strong> {{ document.DocumentId }} - 
-                <strong style="color: red;">FileContent:</strong> {{ document.FileContent }} - 
-                <strong style="color: red;">Quantity:</strong> {{ document.Quantity }} - 
-                <strong style="color: red;">PrintOrderId:</strong> {{ document.PrintOrderId }}             
-            </li>
+        <tr>
+            <td>{{ document.DocumentId }}</td>
+            <td>{{ document.FileContent }}</td>
+            <td>{{ document.Quantity }}</td>
+            <td>{{ document.PrintOrderId }}</td>
+        </tr>
         {% endfor %}
-    </ul>
-    
-        
+    </table>
+     
 </body>
 </html>
