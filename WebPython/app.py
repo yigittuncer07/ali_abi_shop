@@ -25,6 +25,15 @@ def employee():
 
     return render_template('employee.html', all_data = all_data)
 
+@app.route('/customer')
+def customer():
+
+    sql_query = "SELECT * FROM Customer"
+      
+    all_data = db.session.execute(text(sql_query))
+
+    return render_template('customer.html', all_data = all_data)
+
 
 @app.route('/menu')
 def menu():
@@ -62,11 +71,28 @@ def delete_employee():
     return redirect(url_for('employee'))
 
 
+@app.route('/delete_customer', methods=['POST'])
+def delete_customer():
+
+    sql_delete_query = f"DELETE FROM Customer WHERE CustomerId = {request.form.get('deleteId')}"
+      
+    db.session.execute(text(sql_delete_query))
+    
+    db.session.commit()
+
+    return redirect(url_for('customer'))
+
+
+
 def is_employee_exist(requsetId):
     sql_search = f"SELECT * FROM Employee WHERE EmployeeId = {requsetId}"
 
     return db.session.execute(text(sql_search)).scalar()
 
+def is_customer_exist(requsetId):
+    sql_search = f"SELECT * FROM Customer WHERE CustomerId = {requsetId}"
+
+    return db.session.execute(text(sql_search)).scalar()
 
 @app.route('/add_employee', methods=['POST'])
 def add_employee():
@@ -115,12 +141,72 @@ def add_employee():
 
         db.session.commit()
         return redirect(url_for('employee'))
+    
+
+@app.route('/receipt_customer', methods=['POST'])
+def receipt_customer():
+    customer_id =  request.form.get('receipt_customer_id')
+
+    sql_receipt_customer_query = f"""SELECT r.ReceiptId, c.Name as CustomerName, c.Surname as CustomerSurname,
+        e.Name as EmployeeName, e.Surname as EmployeeSurname, r.Date
+        FROM Receipt r
+        INNER JOIN Customer c ON c.CustomerId = r.CustomerId
+        INNER JOIN Employee e ON r.EmployeeId = e.EmployeeId
+        WHERE c.CustomerId = {customer_id}"""
+
+    sql_query_all_data = "SELECT * FROM Customer"
+
+
+    result_receipt = db.session.execute(text(sql_receipt_customer_query)).fetchall()
+    all_data = db.session.execute(text(sql_query_all_data))
+
+
+    return render_template('customer.html', all_data=all_data, result_receipt=result_receipt)
+
+
+
+
+@app.route('/add_customer', methods=['POST'])
+def add_customer():
+
+
+    manuel_customer_id = request.form.get('id')
+    name = request.form.get('name')
+    surname = request.form.get('surname')
+    phoneNumber = request.form.get('phoneNumber')
+
+
+    if(not(is_customer_exist(request.form.get('id')))):
+
+        sql_add_customer = f"""EXEC [dbo].[AddCustomer] 
+            @CustomerId = {manuel_customer_id},
+            @Name = '{name}',
+            @Surname = '{surname}',
+            @PhoneNumber = '{phoneNumber}' """
+
+        db.session.execute(text(sql_add_customer))
+
+        db.session.commit()
+
+        return redirect(url_for('customer'))
+    else:
+        sql_update_customer = f""" UPDATE Customer SET
+            Name = '{name}',
+            Surname = '{surname}',
+            PhoneNumber = '{phoneNumber}'
+        WHERE CustomerId = {manuel_customer_id} """
+
+        db.session.execute(text(sql_update_customer))
+
+        db.session.commit()
+
+        return redirect(url_for('customer'))
 
 @app.route('/search_employee', methods=['POST'])
 def search_employee():
     search_id = request.form.get('search_id')
 
-    search_sql = f"""SELECT TOP (1000) [EmployeeId]
+    search_sql = f"""SELECT [EmployeeId]
       ,[Name]
       ,[Surname]
       ,[Password]
@@ -141,6 +227,22 @@ def search_employee():
     all_data = db.session.execute(text(sql_query_all_data))
 
     return render_template('employee.html', all_data = all_data, result=result)
+
+
+@app.route('/search_customer', methods=['POST'])
+def search_customer():
+    search_id = request.form.get('search_id')
+
+    search_sql = f"SELECT * FROM Customer WHERE CustomerId = {search_id}"
+
+    result = db.session.execute(text(search_sql)).first()
+
+
+    sql_query_all_data = "SELECT * FROM Customer"
+      
+    all_data = db.session.execute(text(sql_query_all_data))
+
+    return render_template('customer.html', all_data = all_data, result=result)
 
 
 if __name__ == "__main__":

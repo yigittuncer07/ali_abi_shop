@@ -48,8 +48,20 @@
 
     <div>
         <p>Employee işlemleri için tıklayınız: </p>
-        <button><a style="text-decoration: none; color: black;" href="{{ url_for('employee') }}">Employee</a></button>
+        <form action="{{ url_for('employee') }}">
+            <input type="submit" value="Employee" />
+        </form>
     </div>
+
+
+    <div>
+        <p>Customer işlemleri için tıklayınız: </p>
+        <form action="{{ url_for('customer') }}">
+            <input type="submit" value="Customer" />
+        </form>
+    </div>
+
+    
     
 
 </body>

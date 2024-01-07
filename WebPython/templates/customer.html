@@ -1,0 +1,149 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AliAbiShop</title>
+    <style>
+    
+    #cool-title {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: colorChange 2s infinite; /* Change color every 5 seconds */
+        }
+
+        #tagline {
+            color: #555;
+            font-size: 1.2em;
+            animation: fadeIn 1s ease-in-out, pulsate 3s infinite;
+        }
+
+        /* Optional: Add some animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes colorChange {
+            0% { color: rgb(52, 152, 219);  }
+            20% { color: rgb(231, 76, 60);  }
+            40% { color: rgb(46, 204, 113); }
+            60% { color: rgb(241, 196, 15); }
+            80% { color: rgb(155, 89, 182); }
+            100% { color: rgb(52, 152, 219); }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <h1 id="cool-title">Ali Abi Shop</h1>
+
+    <form action="{{ url_for('search_customer') }}" method="post">
+        <label for="search_id">CustomerId ile Ara:</label>
+        <input type="number" id="search_id" name="search_id" required>
+        <input type="submit" value="Ara">
+    </form>
+
+
+    <h2>Search Result:</h2>
+
+    {% if result %}
+        <strong style="color: red;">CustomerId:</strong> {{ result.CustomerId }} - 
+        <strong style="color: red;">Name:</strong> {{ result.Name }} - 
+        <strong style="color: red;">Surname:</strong> {{ result.Surname }} - 
+        <strong style="color: red;">PhoneNumber:</strong> {{ result.PhoneNumber }} 
+    {% else %}
+        <p>Belirtilen CustomerId ile eşleşen veri bulunamadı.</p>
+    {% endif %}
+
+    <br>
+
+
+
+    
+    <h2>Yeni Veri Ekle & Güncelle</h2>
+    <form action="{{ url_for('add_customer') }}" method="post">
+        <label for="id">CustomerId:</label>
+        <input type="number" id="id" name="id" required><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required><br>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required><br>
+
+
+        <input type="submit" value="Ekle&Güncelle">
+    </form>
+    
+    <br>
+
+    
+    <h2>Customer Fiş</h2>
+    <form action="{{ url_for('receipt_customer') }}" method="post">
+        <label for="receipt_customer_id">CustomerId:</label>
+        <input type="number" id="receipt_customer_id" name="receipt_customer_id" required><br>
+        <input type="submit" value="Görüntüle">
+    </form>
+    
+    
+
+    <ul>
+        {% for receipt in result_receipt %}
+            <li>
+                <strong style="color: red;">ReceiptId:</strong> {{ receipt.ReceiptId }} - 
+                <strong style="color: red;">CustomerName:</strong> {{ receipt.CustomerName }} - 
+                <strong style="color: red;">CustomerSurname:</strong> {{ receipt.CustomerSurname }} - 
+                <strong style="color: red;">EmployeeName:</strong> {{ receipt.EmployeeName }} -
+                <strong style="color: red;">EmployeeSurname:</strong> {{ receipt.EmployeeSurname }} -
+                <strong style="color: red;">Date:</strong> {{ receipt.Date }} 
+            </li>
+        {% endfor %}
+
+    </ul>    
+    
+
+
+    <br>
+    <h2>Customer Sil</h2>
+    <form action="{{ url_for('delete_customer') }}" method="post">
+        <label for="deleteId">CustomerId:</label>
+        <input type="number" id="deleteId" name="deleteId" required><br>
+
+        <input type="submit" value="Sil">
+    </form>
+    
+
+    <h2>Güncel Veritabanı Verileri</h2>
+
+
+    
+    <ul>
+        {% for customer in all_data %}
+            <li>
+                <strong style="color: red;">CustomerId:</strong> {{ customer.CustomerId }} - 
+                <strong style="color: red;">Name:</strong> {{ customer.Name }} - 
+                <strong style="color: red;">Surname:</strong> {{ customer.Surname }} - 
+                <strong style="color: red;">PhoneNumber:</strong> {{ customer.PhoneNumber }} 
+            </li>
+        {% endfor %}
+    </ul>
+
+
+
+  
+</body>
+</html>
