@@ -6,13 +6,13 @@ from sqlalchemy import text
 
 app = Flask(__name__)
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://hasan123:1@DESKTOP-VT0Q6IP/AliAbiShop'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://@localhost/AliAbiShop' #local baglantı için ustteki satırı silin ve bu satırı yorumdan cıkarın
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://localhost/AliAbiShop'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JSON_AS_ASCII'] = False
 text_with_dotless_i = u"\u0131"
 
 db = SQLAlchemy(app)
+
 
 @app.route('/')
 def index():
@@ -20,52 +20,38 @@ def index():
 
 @app.route('/employee')
 def employee():
-
     sql_query = "SELECT * FROM Employee"
-      
     all_data = db.session.execute(text(sql_query))
-
     return render_template('employee.html', all_data = all_data)
 
 
 @app.route('/receipt')
 def receipt():
-
     sql_query = "SELECT * FROM Receipt"
-      
     all_data = db.session.execute(text(sql_query))
-
     return render_template('receipt.html', all_data = all_data)
+
 
 @app.route('/customer')
 def customer():
-
     sql_query = "SELECT * FROM Customer"
-      
     all_data = db.session.execute(text(sql_query))
-
     return render_template('customer.html', all_data = all_data)
+
 
 @app.route('/item')
 def item():
-
     sql_query = "SELECT * FROM Item"
-      
     all_data = db.session.execute(text(sql_query))
-
     return render_template('item.html', all_data = all_data)
+
 
 @app.route('/product')
 def product():
-
     sql_query = "SELECT * FROM Product"
-      
     all_data = db.session.execute(text(sql_query)).fetchall()
-
     sql_category_query = """SELECT DISTINCT  c.Category FROM Category as c """
-
     all_categories = db.session.execute(text(sql_category_query)).fetchall()
-
     return render_template('product.html', all_data = all_data, all_categories = all_categories)
 
 
@@ -78,24 +64,15 @@ def menu():
 def login_system():
     password = request.form.get('loginPassword')
     email = request.form.get('loginEmail')
-
-    sql_login_query = f"SELECT * FROM Employee WHERE email = '{email}' AND password = '{password}'"
-      
+    sql_login_query = f"SELECT * FROM Employee WHERE email = '{email}' AND password = '{password}'" 
     if(db.session.execute(text(sql_login_query)).scalar()):
-
         return redirect(url_for('menu'))
-    
     else:
-        flash('Looks like you have changed your name!')
         return render_template("index.html")
-
- 
-
 
 
 @app.route('/delete_employee', methods=['POST'])
 def delete_employee():
-
     sql_delete_query = f"DELETE FROM Employee WHERE EmployeeId = {request.form.get('deleteId')}"
       
     db.session.execute(text(sql_delete_query))
@@ -107,7 +84,6 @@ def delete_employee():
 
 @app.route('/delete_customer', methods=['POST'])
 def delete_customer():
-
     sql_delete_query = f"DELETE FROM Customer WHERE CustomerId = {request.form.get('deleteId')}"
       
     db.session.execute(text(sql_delete_query))
@@ -119,7 +95,6 @@ def delete_customer():
 
 @app.route('/delete_receipt', methods=['POST'])
 def delete_receipt():
-
     sql_delete_query = f"DELETE FROM Receipt WHERE ReceiptId = {request.form.get('deleteId')}"
       
     db.session.execute(text(sql_delete_query))
@@ -128,62 +103,52 @@ def delete_receipt():
 
     return redirect(url_for('receipt'))
 
+
 @app.route('/delete_item', methods=['POST'])
 def delete_item():
-
-    sql_delete_query = f"DELETE FROM Item WHERE ItemId = {request.form.get('deleteId')}"
-      
+    sql_delete_query = f"DELETE FROM Item WHERE ItemId = {request.form.get('deleteId')}" 
     db.session.execute(text(sql_delete_query))
-    
     db.session.commit()
-
     return redirect(url_for('item'))
+
 
 @app.route('/delete_product', methods=['POST'])
 def delete_product():
-
     sql_delete_query = f"DELETE FROM Product WHERE ProductId = {request.form.get('deleteId')}"
     sql_category_delete_query = f"DELETE FROM CAtegory WHERE ProductId = {request.form.get('deleteId')}"
-       
     db.session.execute(text(sql_category_delete_query))
-
     db.session.execute(text(sql_delete_query))
-    
     db.session.commit()
-
     return redirect(url_for('product'))
+
 
 def is_employee_exist(requsetId):
     sql_search = f"SELECT * FROM Employee WHERE EmployeeId = {requsetId}"
-
     return db.session.execute(text(sql_search)).scalar()
+
 
 def is_customer_exist(requsetId):
     sql_search = f"SELECT * FROM Customer WHERE CustomerId = {requsetId}"
-
     return db.session.execute(text(sql_search)).scalar()
+
 
 def is_product_exist(requsetId):
     sql_search = f"SELECT * FROM Product WHERE ProductId = {requsetId}"
-
     return db.session.execute(text(sql_search)).scalar()
 
 
 def is_item_exist(requsetId):
     sql_search = f"SELECT * FROM Item WHERE ItemId = {requsetId}"
-
     return db.session.execute(text(sql_search)).scalar()
+
 
 def is_receipt_exist(requsetId):
     sql_search = f"SELECT * FROM Receipt WHERE ReceiptId = {requsetId}"
-
     return db.session.execute(text(sql_search)).scalar()
 
 
 @app.route('/add_employee', methods=['POST'])
 def add_employee():
-
-
     manuel_employee_id = request.form.get('id')
     name = request.form.get('name')
     surname = request.form.get('surname')
@@ -195,15 +160,12 @@ def add_employee():
     phoneNumber = request.form.get('phoneNumber')
     managerId = request.form.get('managerId')
 
-
-
     if(not(is_employee_exist(request.form.get('id')))):
         sql_add_employee = f""" INSERT INTO Employee (EmployeeId, Name, Surname, Password, Email, Salary, WorkEntranceDate, BirthDate, PhoneNumber, ManagerId)
 
             VALUES ({manuel_employee_id},'{name}','{surname}',
             '{password}','{email}',{salary},'{workEntranceDate}',
             '{birthDate}','{phoneNumber}', {managerId})"""
-
 
         db.session.execute(text(sql_add_employee))
 
@@ -227,7 +189,7 @@ def add_employee():
 
         db.session.commit()
         return redirect(url_for('employee'))
-    
+  
 
 @app.route('/receipt_customer', methods=['POST'])
 def receipt_customer():
@@ -245,41 +207,14 @@ def receipt_customer():
 
     sql_query_all_data = "SELECT * FROM Customer"
 
-
     result_receipt = db.session.execute(text(sql_receipt_customer_query)).fetchall()
     all_data = db.session.execute(text(sql_query_all_data))
-
-
-    return render_template('customer.html', all_data=all_data, result_receipt=result_receipt)
-
-@app.route('/receipt_info', methods=['POST'])
-def receipt_info():
-    receiptId =  request.form.get('receipt_customer_id')
-
-    sql_receipt_customer_query = f"""SELECT r.ReceiptId, c.Name as CustomerName, c.Surname as CustomerSurname,
-       e.Name as EmployeeName, e.Surname as EmployeeSurname, r.Date,
-       SUM(i.SellingPrice) as SellingPriceCount
-        FROM Receipt r
-        INNER JOIN Customer c ON c.CustomerId = r.CustomerId
-        INNER JOIN Employee e ON r.EmployeeId = e.EmployeeId
-        INNER JOIN Item i ON r.ReceiptId = i.ReceiptId
-        WHERE r.ReceiptId = {receiptId}
-        GROUP BY r.ReceiptId, c.Name, c.Surname, e.Name, e.Surname, r.Date;"""
-
-    sql_query_all_data = "SELECT * FROM Customer"
-
-
-    result_receipt = db.session.execute(text(sql_receipt_customer_query)).fetchall()
-    all_data = db.session.execute(text(sql_query_all_data))
-
 
     return render_template('customer.html', all_data=all_data, result_receipt=result_receipt)
 
 
 @app.route('/add_customer', methods=['POST'])
 def add_customer():
-
-
     manuel_customer_id = request.form.get('id')
     name = request.form.get('name')
     surname = request.form.get('surname')
@@ -313,13 +248,8 @@ def add_customer():
         return redirect(url_for('customer'))
     
 
-
-
-
 @app.route('/add_receipt', methods=['POST'])
 def add_receipt():
-
-
     receipt_Id = request.form.get('receiptId')
     customer_Id = request.form.get('customerId')
     employee_Id = request.form.get('employeeId')
@@ -353,9 +283,7 @@ def add_receipt():
         return redirect(url_for('receipt'))
 
 
-
 @app.route('/add_item', methods=['POST'])
-
 def add_item():
     itemId = request.form.get('itemId')
     productId = request.form.get('productId')
@@ -392,21 +320,8 @@ def add_item():
             return redirect(url_for('item'))
 
 
-
-
-
-
-
-
-
-    
-    
-
-
-
 @app.route('/add_product', methods=['POST'])
 def add_product():
-
 
     manuel_product_id = request.form.get('productId')
     name = request.form.get('productName')
@@ -433,7 +348,6 @@ def add_product():
         db.session.execute(text(sql_add_product))
         db.session.execute(text(sql_add_category))
 
-
         db.session.commit()
 
         return redirect(url_for('product'))
@@ -449,7 +363,6 @@ def add_product():
 
         db.session.execute(text(sql_update_product))
         db.session.execute(text(sql_update_category))
-
 
         db.session.commit()
 
@@ -474,7 +387,6 @@ def search_employee():
 
     result = db.session.execute(text(search_sql)).first()
 
-
     sql_query_all_data = "SELECT * FROM Employee"
       
     all_data = db.session.execute(text(sql_query_all_data))
@@ -497,6 +409,7 @@ def search_customer():
 
     return render_template('customer.html', all_data = all_data, result=result)
 
+
 @app.route('/search_item', methods=['POST'])
 def search_item():
     search_id = request.form.get('search_id')
@@ -513,7 +426,6 @@ def search_item():
     return render_template('item.html', all_data = all_data, result=result)
 
 
-
 @app.route('/search_receipt', methods=['POST'])
 def search_receipt():
     search_id = request.form.get('search_id')
@@ -528,6 +440,7 @@ def search_receipt():
     all_data = db.session.execute(text(sql_query_all_data))
 
     return render_template('receipt.html', all_data = all_data, result=result)
+
 
 @app.route('/search_product', methods=['POST'])
 def search_product():
