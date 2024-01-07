@@ -5,110 +5,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AliAbiShop</title>
+    <title>Esya Islemleri</title>
     <link rel="stylesheet" href="static/style.css">
 
 </head>
 <body>
 
-    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
-        <h1 id="cool-title">Ali Abi Shop</h1></a>
+    <a href="{{ url_for('menu') }}">
+        <h1 id="cool-title">Esya Islemleri</h1>
+    </a>
 
+    <h2>Esya Numarasi ile Ara</h2>
     <form action="{{ url_for('search_item') }}" method="post">
-        <label for="search_id">ItemId ile Ara:</label>
-        <input type="number" id="search_id" name="search_id" required>
+        <input type="number" id="search_id" name="search_id" required placeholder="esya numarasi">
         <input type="submit" value="Ara">
     </form>
 
-
-    <h2>Search Result:</h2>
-
     {% if result %}
-        <strong style="color: red;">ItemId:</strong> {{ result.ItemId }} - 
-        <strong style="color: red;">ProductId:</strong> {{ result.ProductId }} - 
-        <strong style="color: red;">ReceiptId:</strong> {{ result.ReceiptId }} - 
-        <strong style="color: red;">DateBought:</strong> {{ result.DateBought }} -
-        <strong style="color: red;">DateSold:</strong> {{ result.DateSold }} - 
-        <strong style="color: red;">SellingPrice:</strong> {{ result.SellingPrice }} - 
-        <strong style="color: red;">ArrivalPrice:</strong> {{ result.ArrivalPrice }} - 
-        <strong style="color: red;">IsSold:</strong> {{ result.IsSold }} 
+        <h2>Arama Sonucu:</h2>
+        <div>
+        <strong >ItemId:</strong> {{ result.ItemId }} - 
+        <strong >ProductId:</strong> {{ result.ProductId }} - 
+        <strong >ReceiptId:</strong> {{ result.ReceiptId }} - 
+        <strong >DateBought:</strong> {{ result.DateBought }} -
+        <strong >DateSold:</strong> {{ result.DateSold }} - 
+        <strong >SellingPrice:</strong> {{ result.SellingPrice }} - 
+        <strong >ArrivalPrice:</strong> {{ result.ArrivalPrice }} - 
+        <strong >IsSold:</strong> {{ result.IsSold }} 
+        </div>
     {% else %}
-        <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
+        {% if result is not defined %}
+        {% else %}
+            <p>Belirtilen calisan numarasi ile eşleşen veri bulunamadı.</p>
+        {% endif %}
     {% endif %}
 
     <br>
 
-
-    
-
-
-
     <h2>Yeni Veri Ekle & Güncelle</h2>
     <form action="{{ url_for('add_item') }}" method="post">
-        <label for="itemId">ItemId:</label>
-        <input type="number" id="itemId" name="itemId" required><br>
-
-        <label for="productId">ProductId:</label>
-        <input type="number" id="productId" name="productId" required><br>
-
-        <label for="receiptId">ReceiptId:</label>
-        <input type="number" id="receiptId" name="receiptId" ><br>
-
-        <label for="dateBought">DateBought:</label>
-        <input type="date" id="dateBought" name="dateBought" required><br>
-
-        <label for="dateSold">DateSold:</label>
-        <input type="date" id="dateSold" name="dateSold" ><br>
-
-        <label for="sellingPrice">SellingPrice:</label>
-        <input type="number" id="sellingPrice" name="sellingPrice" ><br>
-
-        <label for="arrivalPrice">ArrivalPrice:</label>
-        <input type="number" id="arrivalPrice" name="arrivalPrice" required><br>
-
-        <label for="isSold">IsSold:</label>
-        <input type="checkbox" id="isSold" name="isSold" value="true">
-        <br>
-        <input type="submit" value="Ekle&Güncelle">
+        <input type="number" id="itemId" name="itemId" required placeholder="esya numarasi"><br>
+        <input type="number" id="productId" name="productId" required placeholder="urun numarasi"><br>
+        <input type="number" id="receiptId" name="receiptId" placeholder="fatura numarasi"><br>
+        <label for="dateBought">Alim Tarihi:</label>
+        <input type="date" id="dateBought" name="dateBought" required placeholder=""><br>
+        <label for="dateSold">Satis Tarihi:</label>
+        <input type="date" id="dateSold" name="dateSold" placeholder=""><br>
+        <input type="number" id="sellingPrice" name="sellingPrice" placeholder="satis fiyati"><br>
+        <input type="number" id="arrivalPrice" name="arrivalPrice" required placeholder="alis fiyati"><br>
+        <label for="isSold">urun satildi mi:</label>
+        <input type="checkbox" id="isSold" name="isSold" value="true" placeholder="satildi mi"><br>
+        <input type="submit" value="ekle ve guncelle">
     </form>
     
-
-    
-    <h2>Item Sil</h2>
+    <h2>Esya Sil</h2>
     <form action="{{ url_for('delete_item') }}" method="post">
-        <label for="deleteId">ItemId:</label>
-        <input type="number" id="deleteId" name="deleteId" required><br>
-
-        <input type="submit" value="Sil">
+        <input type="number" id="deleteId" name="deleteId" required placeholder="esya numarasi"><br>
+        <input type="submit" value="sil">
     </form>
     
     <br>
 
-
-
-
     <h2>Güncel Veritabanı Verileri</h2>
-
-
-    
-    <ul>
+    <table>
+        <tr>
+            <th>ItemID</th>
+            <th>ProductID</th>
+            <th>ReceiptID</th>
+            <th>DateBought</th>
+            <th>DateSold</th>
+            <th>SellingPrice</th>
+            <th>ArrivalPrice</th>
+            <th>IsSold</th>
+        </tr>
         {% for item in all_data %}
-            <li>
-                <strong style="color: red;">ItemId:</strong> {{ item.ItemId }} - 
-                <strong style="color: red;">ProductId:</strong> {{ item.ProductId }} - 
-                <strong style="color: red;">ReceiptId:</strong> {{ item.ReceiptId }} - 
-                <strong style="color: red;">DateBought:</strong> {{ item.DateBought }} -
-                <strong style="color: red;">DateSold:</strong> {{ item.DateSold }} - 
-                <strong style="color: red;">SellingPrice:</strong> {{ item.SellingPrice }} - 
-                <strong style="color: red;">ArrivalPrice:</strong> {{ item.ArrivalPrice }} - 
-                <strong style="color: red;">IsSold:</strong> {{ item.IsSold }} 
-            </li>
+        <tr>
+            <td>{{ item.ItemId }}</td>
+            <td>{{ item.ProductId }}</td>
+            <td>{{ item.ReceiptId }}</td>
+            <td>{{ item.DateBought }}</td>
+            <td>{{ item.DateSold }}</td>
+            <td>{{ item.SellingPrice }}</td>
+            <td>{{ item.ArrivalPrice }}</td>
+            <td>{{ item.IsSold }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
     
-    
-
 </body>
 </html>
-
-
