@@ -127,6 +127,13 @@ def delete_product():
     db.session.commit()
     return redirect(url_for('product'))
 
+@app.route('/delete_document', methods=['POST'])
+def delete_document():
+    sql_delete_query = f"DELETE FROM Document WHERE DocumentId = {request.form.get('deleteId')}"
+    db.session.execute(text(sql_delete_query))
+    db.session.commit()
+    return redirect(url_for('document'))
+
 
 def is_employee_exist(requsetId):
     sql_search = f"SELECT * FROM Employee WHERE EmployeeId = {requsetId}"

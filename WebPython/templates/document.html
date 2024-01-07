@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    
+
     <a href="{{ url_for('menu') }}">
         <h1 id="cool-title">Documan Islemleri</h1>
     </a>
@@ -19,33 +19,16 @@
         <input type="submit" value="ara">
     </form>
 
-    <h2>Search Result:</h2>
-
-    <h2>Yeni Document Ekle Veya Güncelle</h2>
-    <form action="{{ url_for('add_product') }}" method="post">
-        <input type="number" id="prinOrderId" name="prinOrderId" required placeholder="siparis numarasi"><br>
-        <input type="number" id="receiptId" name="receiptId" required placeholder="fatura numarasi"><br>
-        <input type="text" id="fileContent" name="fileContent" required placeholder="dosya icerigi"><br>
-        <input type="number" id="quantity" name="quantity" placeholder="sayi"><br>
-        <input type="submit" value="Ekle veya Güncelle">
-    </form>
-
     <br>
 
     {% if result %}
-        <strong style="color: red;">DocumentId:</strong> {{ result.DocumentId }} - 
-        <strong style="color: red;">FileContent:</strong> {{ result.FileContent }} - 
-        <strong style="color: red;">Quantity:</strong> {{ result.Quantity }} - 
-        <strong style="color: red;">PrintOrderId:</strong> {{ result.PrintOrderId }}          
-    {% else %}
-        <p>Belirtilen ItemId ile eşleşen veri bulunamadı.</p>
-    {% endif %}
-    {% if result %}
         <h2>Arama Sonucu</h2>
-        <strong>DocumentId:</strong> {{ result.DocumentId }} - 
-        <strong>FileContent:</strong> {{ result.FileContent }} - 
-        <strong>Quantity:</strong> {{ result.Quantity }} - 
-        <strong>PrintOrderId:</strong> {{ result.PrintOrderId }}          
+        <div>
+            <strong>DocumentId:</strong> {{ result.DocumentId }} - 
+            <strong>FileContent:</strong> {{ result.FileContent }} - 
+            <strong>Quantity:</strong> {{ result.Quantity }} - 
+            <strong>PrintOrderId:</strong> {{ result.PrintOrderId }}          
+        </div>
     {% else %}
         {% if result is not defined %}
         {% else %}
@@ -54,6 +37,21 @@
     {% endif %}
 
     <br>
+
+    <h2>Yeni Document Ekle Veya Güncelle</h2>
+    <form action="{{ url_for('add_document') }}" method="post">
+        <input type="number" id="printOrderId" name="printOrderId" required placeholder="siparis numarasi"><br>
+        <input type="number" id="receiptId" name="receiptId" required placeholder="fatura numarasi"><br>
+        <input type="text" id="fileContent" name="fileContent" required placeholder="dosya icerigi"><br>
+        <input type="number" id="quantity" name="quantity" placeholder="sayi"><br>
+        <input type="submit" value="Ekle veya Güncelle">
+    </form>
+
+    <h2>Dokuman Sil</h2>
+    <form action="{{ url_for('delete_document') }}" method="post">
+        <input type="number" id="deleteId" name="deleteId" required placeholder="calisan numarasi"><br>
+        <input type="submit" value="sil">
+    </form>
 
     <h2>Güncel Veritabanı Verileri</h2>
     <table>
