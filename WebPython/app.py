@@ -148,11 +148,14 @@ def receipt_customer():
     customer_id =  request.form.get('receipt_customer_id')
 
     sql_receipt_customer_query = f"""SELECT r.ReceiptId, c.Name as CustomerName, c.Surname as CustomerSurname,
-        e.Name as EmployeeName, e.Surname as EmployeeSurname, r.Date
+       e.Name as EmployeeName, e.Surname as EmployeeSurname, r.Date,
+       SUM(i.SellingPrice) as SellingPriceCount
         FROM Receipt r
         INNER JOIN Customer c ON c.CustomerId = r.CustomerId
         INNER JOIN Employee e ON r.EmployeeId = e.EmployeeId
-        WHERE c.CustomerId = {customer_id}"""
+        INNER JOIN Item i ON r.ReceiptId = i.ReceiptId
+        WHERE c.CustomerId = {customer_id}
+        GROUP BY r.ReceiptId, c.Name, c.Surname, e.Name, e.Surname, r.Date;"""
 
     sql_query_all_data = "SELECT * FROM Customer"
 
