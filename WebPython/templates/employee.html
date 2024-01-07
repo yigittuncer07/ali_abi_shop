@@ -46,8 +46,9 @@
 
 
 
-    <h1 id="cool-title">Ali Abi Shop</h1>
-
+    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
+        <h1 id="cool-title">Ali Abi Shop</h1></a>
+        
     <form action="{{ url_for('search_employee') }}" method="post">
         <label for="search_id">EmployeeId ile Ara:</label>
         <input type="number" id="search_id" name="search_id" required>

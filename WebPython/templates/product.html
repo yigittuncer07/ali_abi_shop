@@ -43,8 +43,8 @@
     </style>
 </head>
 <body>
-
-    <h1 id="cool-title">Ali Abi Shop</h1>
+    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
+    <h1 id="cool-title">Ali Abi Shop</h1></a>
 
     <form action="{{ url_for('search_product') }}" method="post">
         <label for="search_id">ProductId ile Ara:</label>
@@ -90,7 +90,8 @@
                 {% for category in all_categories %}
                     <option value="{{ category.Category }}">{{ category.Category }}</option>
                 {% endfor %}
-            </select><br>
+            </select>
+            &
             <input type="text" id="categoryNotReq" name="categoryNotReq" ><br>
 
         <input type="submit" value="Ekle&Güncelle">
@@ -118,8 +119,7 @@
                 <strong style="color: red;">ProductId:</strong> {{ product.ProductId }} - 
                 <strong style="color: red;">Name:</strong> {{ product.Name }} - 
                 <strong style="color: red;">Definition:</strong> {{ product.Definition }} - 
-                <strong style="color: red;">Price:</strong> {{ product.Price }} 
-            </li>
+                <strong style="color: red;">Price:</strong> {{ product.Price }}             </li>
         {% endfor %}
     </ul>
     

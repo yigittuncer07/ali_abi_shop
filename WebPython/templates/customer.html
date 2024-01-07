@@ -46,7 +46,8 @@
 
 
 
-    <h1 id="cool-title">Ali Abi Shop</h1>
+    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
+        <h1 id="cool-title">Ali Abi Shop</h1></a>
 
     <form action="{{ url_for('search_customer') }}" method="post">
         <label for="search_id">CustomerId ile Ara:</label>

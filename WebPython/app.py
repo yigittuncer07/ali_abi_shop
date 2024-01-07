@@ -106,6 +106,17 @@ def delete_customer():
 
     return redirect(url_for('customer'))
 
+@app.route('/delete_item', methods=['POST'])
+def delete_item():
+
+    sql_delete_query = f"DELETE FROM Item WHERE ItemId = {request.form.get('deleteId')}"
+      
+    db.session.execute(text(sql_delete_query))
+    
+    db.session.commit()
+
+    return redirect(url_for('item'))
+
 @app.route('/delete_product', methods=['POST'])
 def delete_product():
 
@@ -132,6 +143,12 @@ def is_customer_exist(requsetId):
 
 def is_product_exist(requsetId):
     sql_search = f"SELECT * FROM Product WHERE ProductId = {requsetId}"
+
+    return db.session.execute(text(sql_search)).scalar()
+
+
+def is_item_exist(requsetId):
+    sql_search = f"SELECT * FROM Item WHERE ItemId = {requsetId}"
 
     return db.session.execute(text(sql_search)).scalar()
 
@@ -247,6 +264,54 @@ def add_customer():
 
         return redirect(url_for('customer'))
     
+@app.route('/add_item', methods=['POST'])
+
+def add_item():
+    itemId = request.form.get('itemId')
+    productId = request.form.get('productId')
+    receiptId = request.form.get('receiptId')
+    dateBought = request.form.get('dateBought')
+    dateSold = request.form.get('dateSold')
+    sellingPrice = request.form.get('sellingPrice')
+    arrivalPrice = request.form.get('arrivalPrice')
+    isSold = request.form.get('isSold')
+
+    if(isSold == None):
+        isSold = 0
+    else:
+        isSold = 1
+
+
+    if(not is_item_exist(itemId)):
+        if(isSold == True):
+            sql_add_item= f""" INSERT INTO Item (ItemId, ProductId, ReceiptId, DateBought, DateSold, SellingPrice, ArrivalPrice, IsSold)
+                VALUES
+                ({itemId}, {productId}, {receiptId}, '{dateBought}', '{dateSold}', {sellingPrice}, {arrivalPrice}, {isSold})"""
+            
+            db.session.execute(text(sql_add_item))
+            db.session.commit()
+            return redirect(url_for('item'))
+        
+        else:
+            sql_add_item= f""" INSERT INTO Item (ItemId, ProductId, ReceiptId, DateBought, DateSold, SellingPrice, ArrivalPrice, IsSold)
+                VALUES
+                ({itemId}, {productId}, NULL, '{dateBought}', NULL,NULL, {arrivalPrice}, {isSold})"""
+            
+            db.session.execute(text(sql_add_item))
+            db.session.commit()
+            return redirect(url_for('item'))
+
+
+
+
+
+
+
+
+
+    
+    
+
 
 
 @app.route('/add_product', methods=['POST'])
@@ -261,9 +326,9 @@ def add_product():
     category_not_req = request.form.get('categoryNotReq')
 
     if(category_dropdown == 'notReq'):
-        category = category_dropdown
-    else:
         category = category_not_req
+    else:
+        category = category_dropdown
     if(not(is_product_exist(request.form.get('productId')))):
 
         sql_add_product= f"""EXEC [dbo].[AddProduct] 
@@ -367,10 +432,13 @@ def search_product():
 
 
     sql_query_all_data = "SELECT * FROM Product"
+    sql_category_query = """SELECT DISTINCT  c.Category FROM Category as c """
+
+    all_categories = db.session.execute(text(sql_category_query)).fetchall()
       
     all_data = db.session.execute(text(sql_query_all_data))
 
-    return render_template('product.html', all_data = all_data, result=result)
+    return render_template('product.html', all_data = all_data, result=result,all_categories= all_categories)
 
 
 if __name__ == "__main__":
