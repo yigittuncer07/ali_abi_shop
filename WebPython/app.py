@@ -9,6 +9,8 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://hasan123:1@DESKTOP-VT0Q6IP/AliAbiShop'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://@localhost/AliAbiShop' #local baglantı için ustteki satırı silin ve bu satırı yorumdan cıkarın
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JSON_AS_ASCII'] = False
+text_with_dotless_i = u"\u0131"
 
 db = SQLAlchemy(app)
 
@@ -42,6 +44,19 @@ def item():
     all_data = db.session.execute(text(sql_query))
 
     return render_template('item.html', all_data = all_data)
+
+@app.route('/product')
+def product():
+
+    sql_query = "SELECT * FROM Product"
+      
+    all_data = db.session.execute(text(sql_query)).fetchall()
+
+    sql_category_query = """SELECT DISTINCT  c.Category FROM Category as c """
+
+    all_categories = db.session.execute(text(sql_category_query)).fetchall()
+
+    return render_template('product.html', all_data = all_data, all_categories = all_categories)
 
 
 @app.route('/menu')
@@ -91,7 +106,19 @@ def delete_customer():
 
     return redirect(url_for('customer'))
 
+@app.route('/delete_product', methods=['POST'])
+def delete_product():
 
+    sql_delete_query = f"DELETE FROM Product WHERE ProductId = {request.form.get('deleteId')}"
+    sql_category_delete_query = f"DELETE FROM CAtegory WHERE ProductId = {request.form.get('deleteId')}"
+       
+    db.session.execute(text(sql_category_delete_query))
+
+    db.session.execute(text(sql_delete_query))
+    
+    db.session.commit()
+
+    return redirect(url_for('product'))
 
 def is_employee_exist(requsetId):
     sql_search = f"SELECT * FROM Employee WHERE EmployeeId = {requsetId}"
@@ -102,6 +129,12 @@ def is_customer_exist(requsetId):
     sql_search = f"SELECT * FROM Customer WHERE CustomerId = {requsetId}"
 
     return db.session.execute(text(sql_search)).scalar()
+
+def is_product_exist(requsetId):
+    sql_search = f"SELECT * FROM Product WHERE ProductId = {requsetId}"
+
+    return db.session.execute(text(sql_search)).scalar()
+
 
 @app.route('/add_employee', methods=['POST'])
 def add_employee():
@@ -213,6 +246,59 @@ def add_customer():
         db.session.commit()
 
         return redirect(url_for('customer'))
+    
+
+
+@app.route('/add_product', methods=['POST'])
+def add_product():
+
+
+    manuel_product_id = request.form.get('productId')
+    name = request.form.get('productName')
+    definition = request.form.get('productDefinition')
+    price = request.form.get('productPrice')
+    category_dropdown =   request.form.get('category')
+    category_not_req = request.form.get('categoryNotReq')
+
+    if(category_dropdown == 'notReq'):
+        category = category_dropdown
+    else:
+        category = category_not_req
+    if(not(is_product_exist(request.form.get('productId')))):
+
+        sql_add_product= f"""EXEC [dbo].[AddProduct] 
+            @ProductId = {manuel_product_id},
+            @Name = '{name}',
+            @Definition = '{definition}',
+            @Price = {price} """
+        
+        sql_add_category = f"""INSERT INTO Category (ProductId, Category)
+         VALUES ({manuel_product_id}, '{category}') """
+
+        db.session.execute(text(sql_add_product))
+        db.session.execute(text(sql_add_category))
+
+
+        db.session.commit()
+
+        return redirect(url_for('product'))
+    else:
+        sql_update_product = f""" UPDATE Product SET
+            Name = '{name}',
+            Definition = '{definition}',
+            Price = '{price}'
+            WHERE ProductId = {manuel_product_id} """
+        
+        sql_update_category = f"""UPDATE Category SET 
+            Category = '{category}' WHERE ProductId = {manuel_product_id}"""
+
+        db.session.execute(text(sql_update_product))
+        db.session.execute(text(sql_update_category))
+
+
+        db.session.commit()
+
+        return redirect(url_for('product'))
 
 @app.route('/search_employee', methods=['POST'])
 def search_employee():
@@ -271,6 +357,20 @@ def search_item():
 
     return render_template('item.html', all_data = all_data, result=result)
 
+@app.route('/search_product', methods=['POST'])
+def search_product():
+    search_id = request.form.get('search_id')
+
+    search_sql = f"SELECT * FROM Product WHERE ProductId = {search_id}"
+
+    result = db.session.execute(text(search_sql)).first()
+
+
+    sql_query_all_data = "SELECT * FROM Product"
+      
+    all_data = db.session.execute(text(sql_query_all_data))
+
+    return render_template('product.html', all_data = all_data, result=result)
 
 
 if __name__ == "__main__":
