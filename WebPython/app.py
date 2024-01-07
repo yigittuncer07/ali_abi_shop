@@ -27,6 +27,16 @@ def employee():
 
     return render_template('employee.html', all_data = all_data)
 
+
+@app.route('/receipt')
+def receipt():
+
+    sql_query = "SELECT * FROM Receipt"
+      
+    all_data = db.session.execute(text(sql_query))
+
+    return render_template('receipt.html', all_data = all_data)
+
 @app.route('/customer')
 def customer():
 

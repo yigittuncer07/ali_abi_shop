@@ -44,44 +44,24 @@
 </head>
 <body>
 
-    <a href="{{ url_for('index') }}" style="text-decoration: none;">
+
+    <a href="{{ url_for('menu') }}" style="text-decoration: none;">
         <h1 id="cool-title">Ali Abi Shop</h1></a>
-
-    <div>
-        <p>Employee işlemleri için tıklayınız: </p>
-        <form action="{{ url_for('employee') }}">
-            <input type="submit" value="Employee" />
-        </form>
-    </div>
+    
+    
+    <h2>Güncel Veritabanı Verileri</h2>
 
 
-    <div>
-        <p>Customer işlemleri için tıklayınız: </p>
-        <form action="{{ url_for('customer') }}">
-            <input type="submit" value="Customer" />
-        </form>
-    </div>
-
-    <div>
-        <p>Item işlemleri için tıklayınız: </p>
-        <form action="{{ url_for('item') }}">
-            <input type="submit" value="Item" />
-        </form>
-    </div>
-
-    <div>
-        <p>Product işlemleri için tıklayınız: </p>
-        <form action="{{ url_for('product') }}">
-            <input type="submit" value="Product" />
-        </form>
-    </div>
-
-    <div>
-        <p>Receipt işlemleri için tıklayınız: </p>
-        <form action="{{ url_for('receipt') }}">
-            <input type="submit" value="Receipt" />
-        </form>
-    </div>
+    
+    <ul>
+        {% for receipt in all_data %}
+            <li>
+                <strong style="color: red;">ReceiptId:</strong> {{ receipt.ReceiptId }} - 
+                <strong style="color: red;">CustomerId:</strong> {{ receipt.CustomerId }} - 
+                <strong style="color: red;">EmployeeId:</strong> {{ receipt.EmployeeId }} - 
+                <strong style="color: red;">Date:</strong> {{ receipt.Date }}             </li>
+        {% endfor %}
+    </ul>
     
 
 </body>
