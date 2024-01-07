@@ -5,57 +5,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AliAbiShop</title>
-    <style>
-    
-    #cool-title {
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            animation: colorChange 2s infinite; /* Change color every 5 seconds */
-        }
-
-        #tagline {
-            color: #555;
-            font-size: 1.2em;
-            animation: fadeIn 1s ease-in-out, pulsate 3s infinite;
-        }
-
-        /* Optional: Add some animation */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes pulsate {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes colorChange {
-            0% { color: rgb(52, 152, 219);  }
-            20% { color: rgb(231, 76, 60);  }
-            40% { color: rgb(46, 204, 113); }
-            60% { color: rgb(241, 196, 15); }
-            80% { color: rgb(155, 89, 182); }
-            100% { color: rgb(52, 152, 219); }
-        }
-    </style>
+    <link rel="stylesheet" href="static/style.css">
+    <title>AliAbiShopLogin</title>
 </head>
 <body>
 
-    <h1 id="cool-title">Ali Abi Shop</h1>
-
-    <h2>Giriş Yapın:</h2>
+    <h1>Ali Abi Shop Login</h1>
 
     <form action="{{ url_for('login_system') }}" method="post">
+
         <label for="loginEmail">Email:</label>
         <input type="text" id="loginEmail" name="loginEmail" required><br>
 
         <label for="loginPassword">Password:</label>
-        <input type="text" id="loginPassword" name="loginPassword" required><br>
+        <input type="password" id="loginPassword" name="loginPassword" required><br>
 
-        <input type="submit" value="Giriş">
+        <input type="submit" value="Login">
     </form>
 
 </body>

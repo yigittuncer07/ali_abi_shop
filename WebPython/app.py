@@ -6,8 +6,7 @@ from sqlalchemy import text
 
 app = Flask(__name__)
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://hasan123:1@DESKTOP-VT0Q6IP/AliAbiShop'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://@localhost/AliAbiShop' #local baglantı için ustteki satırı silin ve bu satırı yorumdan cıkarın
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://mehmet:123@DESKTOP-7A715RN/AliAbiShop'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -15,6 +14,7 @@ db = SQLAlchemy(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/employee')
 def employee():
@@ -25,6 +25,7 @@ def employee():
 
     return render_template('employee.html', all_data = all_data)
 
+
 @app.route('/customer')
 def customer():
 
@@ -33,6 +34,7 @@ def customer():
     all_data = db.session.execute(text(sql_query))
 
     return render_template('customer.html', all_data = all_data)
+
 
 @app.route('/item')
 def item():
@@ -61,11 +63,7 @@ def login_system():
         return redirect(url_for('menu'))
     
     else:
-        flash('Looks like you have changed your name!')
         return render_template("index.html")
-
- 
-
 
 
 @app.route('/delete_employee', methods=['POST'])
@@ -92,20 +90,20 @@ def delete_customer():
     return redirect(url_for('customer'))
 
 
-
 def is_employee_exist(requsetId):
     sql_search = f"SELECT * FROM Employee WHERE EmployeeId = {requsetId}"
 
     return db.session.execute(text(sql_search)).scalar()
+
 
 def is_customer_exist(requsetId):
     sql_search = f"SELECT * FROM Customer WHERE CustomerId = {requsetId}"
 
     return db.session.execute(text(sql_search)).scalar()
 
+
 @app.route('/add_employee', methods=['POST'])
 def add_employee():
-
 
     manuel_employee_id = request.form.get('id')
     name = request.form.get('name')
@@ -150,7 +148,7 @@ def add_employee():
 
         db.session.commit()
         return redirect(url_for('employee'))
-    
+  
 
 @app.route('/receipt_customer', methods=['POST'])
 def receipt_customer():
@@ -174,8 +172,6 @@ def receipt_customer():
 
 
     return render_template('customer.html', all_data=all_data, result_receipt=result_receipt)
-
-
 
 
 @app.route('/add_customer', methods=['POST'])
@@ -213,6 +209,7 @@ def add_customer():
         db.session.commit()
 
         return redirect(url_for('customer'))
+
 
 @app.route('/search_employee', methods=['POST'])
 def search_employee():
@@ -256,6 +253,7 @@ def search_customer():
 
     return render_template('customer.html', all_data = all_data, result=result)
 
+
 @app.route('/search_item', methods=['POST'])
 def search_item():
     search_id = request.form.get('search_id')
@@ -270,7 +268,6 @@ def search_item():
     all_data = db.session.execute(text(sql_query_all_data))
 
     return render_template('item.html', all_data = all_data, result=result)
-
 
 
 if __name__ == "__main__":
